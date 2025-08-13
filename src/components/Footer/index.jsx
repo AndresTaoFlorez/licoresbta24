@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="w-full bg-gradient-to-br from-[#468553] to-[#000000] text-white py-8 px-6">
+    <footer className="flex flex-1 w-full bg-gradient-to-br from-[#468553] to-[#000000] text-white py-8 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:gap-4">
 
         {/* Nombre y eslogan */}

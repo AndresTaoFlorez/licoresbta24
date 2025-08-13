@@ -16,9 +16,9 @@ const ContentBody = () => {
   };
 
   return (
-    <div className=" relative text-white flex items-center justify-center px-8 py-12">
+    <div className="relative flex-1  text-white flex items-center justify-center px-8 py-12">
       {/* <div className="bg-black text-white flex items-center justify-center px-8 py-16"> */}
-      <section className="grid grid-cols-1 [@media(min-width:1010px)]:grid-cols-3 gap-8 justify-around">
+      <section className="grid min-h-full grid-cols-1 [@media(min-width:1010px)]:grid-cols-3 gap-8 justify-around items-center">
         {/* Sección de Redes Sociales */}
         <div className='flex flex-col justify-center items-center'>
           <div className="space-y-10 p-4">
@@ -119,7 +119,7 @@ const ContentBody = () => {
         <img
           src="./public/fondo.png"
           alt="licoresbtafondo"
-          className="w-full h-full object-cover blur-[5px]"
+          className="w-full h-full object-cover blur-[3px]"
         />
 
         {/* Degradado superior */}

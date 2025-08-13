@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+
+    box-sizing: border-box;
+}
+
+#root {
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}

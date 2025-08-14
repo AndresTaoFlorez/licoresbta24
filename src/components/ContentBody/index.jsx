@@ -1,11 +1,17 @@
 import { Phone, ShoppingCart, MessageCircle, Instagram } from 'lucide-react';
 import { FaTiktok } from 'react-icons/fa';
+import { Helmet } from "react-helmet";
 import WhatsAppButton, { handleContactClick } from './components/WhatsAppButton';
 
 const ContentBody = () => {
 
   return (
     <div className="relative flex-1  text-white flex items-center justify-center px-8 py-12">
+      <Helmet>
+        <title>Licores Bogotá 24 - Licoresbta24.club</title>
+        <meta name="description" content="Compra bebidas en Bogotá las 24 horas con entrega rápida." />
+      </Helmet>
+      
       {/* <div className="bg-black text-white flex items-center justify-center px-8 py-16"> */}
       <section className="grid min-h-full grid-cols-1 [@media(min-width:1010px)]:grid-cols-3 gap-8 justify-around items-center">
         {/* Sección de Redes Sociales */}
@@ -25,15 +31,6 @@ const ContentBody = () => {
             >
               <Instagram className="w-8 h-8 text-gray-400 group-hover:text-white transition-colors duration-300" />
             </a>
-
-            {/* <a
-              href="https://wa.me/573133978710"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-16 h-16 border border-green-600 rounded-lg flex items-center justify-center hover:border-green-400 hover:bg-green-900 transition-all duration-300 group"
-            >
-              <MessageCircle className="w-8 h-8 text-green-400 group-hover:text-white transition-colors duration-300" />
-            </a> */}
 
             <a
               href="https://www.tiktok.com/@licoresbogota247?_t=ZS-8ypsfqu9GvC&_r=1"

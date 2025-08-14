@@ -15,11 +15,11 @@ function Footer() {
 
             {/* Logos métodos de pago */}
             <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8">
-              <img src="./public/nequi.svg" alt="Nequi" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
-              <img src="./public/daviplata.svg" alt="Daviplata" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
-              <img src="./public/visa.svg" alt="Visa" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
-              <img src="./public/mastercard.svg" alt="MasterCard" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
-              <img src="./public/maestro.svg" alt="Maestro" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
+              <img src="/nequi.svg" alt="Nequi" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
+              <img src="/daviplata.svg" alt="Daviplata" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
+              <img src="/visa.svg" alt="Visa" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
+              <img src="/mastercard.svg" alt="MasterCard" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
+              <img src="/maestro.svg" alt="Maestro" className="w-12 h-8 sm:w-14 sm:h-10 object-contain" />
             </div>
           </div>
         </div>

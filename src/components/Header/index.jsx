@@ -20,7 +20,7 @@ function Header() {
             <div className="relative flex flex-col items-center animate-logo-bounce group">
               <img
                 className="w-[500px] max-w-full md:w-[500px] sm:w-[350px] animate-fade-in-accelerate transition-all duration-500 group-hover:animate-glow"
-                src="./public/licoresbta_logo.svg"
+                src="/licoresbta_logo.svg"
                 alt="licoresbta_logo"
               />
 

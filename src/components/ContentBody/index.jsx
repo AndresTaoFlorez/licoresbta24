@@ -1,19 +1,8 @@
 import { Phone, ShoppingCart, MessageCircle, Instagram } from 'lucide-react';
 import { FaTiktok } from 'react-icons/fa';
+import WhatsAppButton, { handleContactClick } from './components/WhatsAppButton';
 
 const ContentBody = () => {
-
-  const handleContactClick = () => {
-    const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      // Llamar directamente en móvil
-      window.location.href = "tel:3133978710";
-    } else {
-      // Abrir WhatsApp Web en escritorio
-      window.open("https://wa.me/573133978710", "_blank");
-    }
-  };
 
   return (
     <div className="relative flex-1  text-white flex items-center justify-center px-8 py-12">
@@ -37,14 +26,14 @@ const ContentBody = () => {
               <Instagram className="w-8 h-8 text-gray-400 group-hover:text-white transition-colors duration-300" />
             </a>
 
-            <a
+            {/* <a
               href="https://wa.me/573133978710"
               target="_blank"
               rel="noopener noreferrer"
               className="w-16 h-16 border border-green-600 rounded-lg flex items-center justify-center hover:border-green-400 hover:bg-green-900 transition-all duration-300 group"
             >
               <MessageCircle className="w-8 h-8 text-green-400 group-hover:text-white transition-colors duration-300" />
-            </a>
+            </a> */}
 
             <a
               href="https://www.tiktok.com/@licoresbogota247?_t=ZS-8ypsfqu9GvC&_r=1"
@@ -62,19 +51,36 @@ const ContentBody = () => {
           {/* Sección de Contacto */}
           <div className="space-y-10">
             <h2 className="text-4xl font-light tracking-wide">Contáctanos</h2>
-            <div className="flex flex-col items-center space-y-8">
-              <div className="flex items-center space-x-4">
-                <Phone className="w-6 h-6 text-gray-400" />
-                <p className="text-xl font-mono tracking-wider">
-                  313 3978710 - 311 4575936
-                </p>
+            <div className="flex flex-col text-xl items-center space-y-8">
+              <div className='flex'>
+                ¡Llámanos ya! <Phone className="w-6 h-6 ml-4 text-gray-400" />
               </div>
-              <button
-                onClick={handleContactClick}
+              <div className="flex items-center space-x-4" >
+                {/* <p className="text-xl font-mono tracking-wider">
+                    313 3978710 - 311 4575936
+                    </p> */}
+                <p className="text-xl font-mono tracking-wider flex flex-col gap-2 justify-center items-center [@media(min-width:508px)]:flex-row">
+                  <button
+                    onClick={() => handleContactClick("3133978710")}
+                    className="text-gray-200 cursor-pointer hover:underline"
+                  >
+                    313 3978710
+                  </button>
+                  <span> </span>
+                  <button
+                    onClick={() => handleContactClick("3114575936")}
+                    className="text-gray-200 cursor-pointer hover:underline"
+                  >
+                    311 4575936
+                  </button>
+                </p>
+
+              </div>
+              {/* <button
+                onClick={() => handleContactClick('3133978710')}
                 className="bg-green-600 hover:bg-green-700 cursor-pointer text-white px-10 py-4 rounded-lg font-medium transition-colors duration-300 text-lg shadow-lg"
               >
-                ¡Llámanos ya!
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -114,10 +120,12 @@ const ContentBody = () => {
           </div>
         </div>
       </section>
+
+      {/* Boton de WhatsApp */}
       <aside className="absolute inset-0 -z-10">
         {/* Imagen de fondo con blur */}
         <img
-          src="./public/fondo.png"
+          src="/fondo.png"
           alt="licoresbtafondo"
           className="w-full h-full object-cover blur-[3px]"
         />
@@ -129,6 +137,7 @@ const ContentBody = () => {
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#000000] to-transparent pointer-events-none"></div>
       </aside>
 
+      <WhatsAppButton />
     </div>
   );
 };

@@ -147,7 +147,7 @@ export default function SwipeToEnter({ children }) {
           <div className="text-center mb-6 sm:mb-8">
             <div className="mb-4">
               {/* Logo licoresbta24*/}
-              <div className="w-40 h-40 mx-auto bg-gradient-to-r rounded-full flex items-center justify-center mb-4">
+              <div className="w-60 h-45 mx-auto bg-gradient-to-r rounded-full flex items-center justify-center mb-4">
                 <img src="/licoresbta_logo.svg" alt="Licores Bogotá 24" />
               </div>
             </div>

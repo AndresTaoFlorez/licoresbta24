@@ -1,12 +1,12 @@
 import { Phone, ShoppingCart, MessageCircle, Instagram } from 'lucide-react';
 import { FaTiktok } from 'react-icons/fa';
 import { Helmet } from "react-helmet";
-import WhatsAppButton, { handleContactClick } from './components/WhatsAppButton';
+import WhatsAppButton, { handleContactClick } from '../components/WhatsAppButton';
 
 const ContentBody = () => {
 
   return (
-    <div className="relative flex-1  text-white flex items-center justify-center px-8 py-12">
+    <div className="relative flex-1 text-white flex items-center justify-center px-8 py-12">
       <Helmet>
         <title>Licores Bogotá 24 - Licoresbta24.club</title>
         <meta name="description" content="Compra bebidas en Bogotá las 24 horas con entrega rápida." />

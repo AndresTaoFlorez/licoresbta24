@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { ChevronRight } from 'lucide-react';
 import './SwipeToEnter.scss';
+import Slider from '../../components/components/Slider/index.jsx';
 
 const getInitialUnlockedState = () => {
   if (typeof window !== 'undefined') {
@@ -130,7 +131,7 @@ export default function SwipeToEnter({ children }) {
       // Desbloquear después de la animación completa
       setTimeout(() => {
         handleUnlock();
-      }, 1600); // 800ms + 800ms de animación de contracción
+      }, 1600); // Tiempo total de animación
     } else {
       // Volver a inicio
       buttonRef.current.style.setProperty('--x', '0px');
@@ -176,45 +177,7 @@ export default function SwipeToEnter({ children }) {
           </div>
 
           {/* Slider */}
-          <div
-            ref={sliderRef}
-            className={`SwipeToEnter__slider ${slideComplete ? 'is-complete' : ''} ${isContracting ? 'contract' : ''}
-           relative bg-black/30 rounded-full h-14 sm:h-16 border-2 border-emerald-400/40 overflow-hidden mb-4 sm:mb-6 select-none shadow-inner
-            `}
-          >
-            <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
-              <span className="text-emerald-200/70 font-medium select-none text-sm sm:text-base">
-                Desliza para confirmar →
-              </span>
-            </div>
-            <div
-              ref={buttonRef}
-              className="SwipeToEnter__slider-button"
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-            >
-              <ChevronRight />
-            </div>
-
-          </div>
-
-          {/* Barra de progreso */}
-          <div className="SwipeToEnter__progress">
-            <div
-              ref={progressBarRef}
-              className="SwipeToEnter__progress-bar"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-
-          <div className="text-center">
-            {isDragging && (
-              <p className="text-emerald-300/90 text-xs font-mediumt">
-                {Math.round(progress)}% completado
-              </p>
-            )}
-          </div>
+          <Slider onConfirm={() => setIsUnlocked(true)} />
 
           <div className="mt-4 p-3 bg-black/20 rounded-lg border border-emerald-500/20">
             <p className='text-emerald-200/60 text-xs leading-relaxed'>

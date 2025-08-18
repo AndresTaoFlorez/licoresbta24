@@ -11,7 +11,7 @@ const ContentBody = () => {
         <title>Licores Bogotá 24 - Licoresbta24.club</title>
         <meta name="description" content="Compra bebidas en Bogotá las 24 horas con entrega rápida." />
       </Helmet>
-      
+
       {/* <div className="bg-black text-white flex items-center justify-center px-8 py-16"> */}
       <section className="grid min-h-full grid-cols-1 [@media(min-width:1010px)]:grid-cols-3 gap-8 justify-around items-center">
         {/* Sección de Redes Sociales */}
@@ -24,7 +24,7 @@ const ContentBody = () => {
           {/* Logos de Redes Sociales */}
           <div className="flex justify-center space-x-10">
             <a
-              href="https://www.instagram.com/licoresbogota24_?igsh=MWtvMnRhMGV0aGxsNw=="
+              href="https://www.instagram.com/licoresbogota24"
               target="_blank"
               rel="noopener noreferrer"
               className="w-16 h-16 border border-gray-600 rounded-lg flex items-center justify-center hover:border-pink-400 hover:bg-pink-900 transition-all duration-300 group"
@@ -33,7 +33,7 @@ const ContentBody = () => {
             </a>
 
             <a
-              href="https://www.tiktok.com/@licoresbogota247?_t=ZS-8ypsfqu9GvC&_r=1"
+              href="https://www.tiktok.com/@licoresbogota24"
               target="_blank"
               rel="noopener noreferrer"
               className="w-16 h-16 border border-gray-600 rounded-lg flex items-center justify-center hover:border-gray-400 hover:bg-gray-900 transition-all duration-300 group"
@@ -99,7 +99,7 @@ const ContentBody = () => {
              bg-gradient-to-r from-[#079843] to-[#468553] 
              hover:from-purple-700 hover:to-[#3d7448] 
              text-white font-bold py-4 px-8 rounded-full shadow-lg 
-             transition-colors transition-transform transition-shadow 
+             transition-colors transition-transform transition-shadow
              duration-300 
              hover:shadow-xl hover:scale-105 
              flex items-center space-x-4
@@ -134,7 +134,9 @@ const ContentBody = () => {
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#000000] to-transparent pointer-events-none"></div>
       </aside>
 
-      <WhatsAppButton />
+      <div className="fixed bottom-4 right-4 z-50">
+        <WhatsAppButton />
+      </div>
     </div>
   );
 };

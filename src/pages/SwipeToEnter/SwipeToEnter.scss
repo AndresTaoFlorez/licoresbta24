@@ -1,0 +1,263 @@
+$emerald-200: #a7f3d0;
+
+@mixin green-border {
+  // border: 2px solid #0b6743;
+  border: 2px solid;
+  border-color: #00d4924d;
+}
+
+
+.SwipeToEnter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #377945 0%, #141b05 100%);
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #377945 0%, #141b05 100%);
+    -webkit-backdrop-filter: blur(5px);
+    filter: blur(5px);
+
+    .sphere {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.1;
+      animation: float 6s ease-in-out infinite;
+
+      &--white {
+        width: 200px;
+        height: 200px;
+        background: white;
+
+        top: 10%;
+        left: 20%;
+        animation-delay: 0s;
+      }
+
+      &--green-light {
+        width: 150px;
+        height: 150px;
+        background: #10b981;
+        top: 60%;
+        right: 10%;
+        animation-delay: 2s;
+      }
+
+      &--emerald {
+        width: 100px;
+        height: 100px;
+        background: #059669;
+        bottom: 20%;
+        left: 10%;
+        animation-delay: 4s;
+      }
+
+      &--white-dim {
+        width: 120px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.5);
+        top: 30%;
+        right: 30%;
+        animation-delay: 1s;
+      }
+
+      &--center {
+        width: 300px;
+        height: 300px;
+        background: rgba(16, 185, 129, 0.2);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: 3s;
+      }
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 400px;
+
+    .card {
+      background: #1d321a9a;
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      @include green-border;
+
+    }
+  }
+
+  &__slider {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    background: #131f10;
+    border-radius: 30px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border: 2px solid #e5e7eb;
+    transition: all 0.5s ease;
+    @include green-border;
+
+    &.is-complete {
+      background: #131f10;
+      border-color: #10b981;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+
+      .SwipeToEnter__slider-button {
+        svg {
+          opacity: 0;
+          transform: scale(0);
+        }
+      }
+
+      // Animación de contracción
+      &.contract {
+        animation: contractSlider 0.6s ease-in-out forwards;
+      }
+    }
+
+    &-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.9rem;
+      font-weight: 500;
+      pointer-events: none;
+      z-index: 1;
+      transition: all 0.3s ease;
+      // text color
+    }
+
+    &-button {
+      position: absolute;
+      top: 50%;
+      left: 0.25rem;
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transform: translateY(-50%) translateX(var(--x, 0px));
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+
+      &:active {
+        cursor: grabbing;
+        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+      }
+
+      svg {
+        color: white;
+        width: 20px;
+        height: 20px;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+
+  &__progress {
+    width: 100%;
+    height: 4px;
+    background: #111c0d;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+
+    &-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #059669);
+      border-radius: 2px;
+      transition: width 0.1s ease;
+    }
+  }
+
+}
+
+// Animaciones
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-20px) rotate(120deg);
+  }
+
+  66% {
+    transform: translateY(10px) rotate(240deg);
+  }
+}
+
+@keyframes contractSlider {
+  0% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  60% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scaleX(0);
+    opacity: 0;
+    height: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .SwipeToEnter {
+    &__content {
+      width: 95%;
+
+      .card {
+        padding: 1.5rem;
+
+        h1 {
+          font-size: 1.3rem;
+        }
+      }
+    }
+
+    &__slider {
+      height: 55px;
+
+      &-button {
+        width: 47px;
+        height: 47px;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+}

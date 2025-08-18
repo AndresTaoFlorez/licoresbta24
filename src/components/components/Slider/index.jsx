@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
 
 export default function Slider({ onConfirm, text = "Desliza para confirmar →" }) {
@@ -57,6 +57,7 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
     if (dragX > maxDrag * 0.75) {
       // COMPLETADO
       setSlideComplete(true);
+      localStorage.setItem('swipeToEnterUnlocked', 'true');
       setDragX(maxDrag);
       
       // Secuencia de animaciones
@@ -66,11 +67,11 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
       
       setTimeout(() => {
         setIsDisappearing(true);
-      }, 800);
+      }, 550);
       
       setTimeout(() => {
         onConfirm?.();
-      }, 1300);
+      }, 600);
     } else {
       // NO COMPLETADO - regresar al origen
       setDragX(0);
@@ -116,14 +117,6 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
           </span>
         </div>
 
-        {/* Progress Background */}
-        <div 
-          className="absolute left-0 top-0 h-full bg-emerald-500/10 rounded-full transition-all duration-200"
-          style={{ 
-            width: `${progress * 100}%`,
-            opacity: progress > 0 ? 0.5 : 0 
-          }}
-        />
 
         {/* Button - usando solo flexbox */}
         <div
@@ -132,7 +125,7 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
             rounded-full flex items-center justify-center select-none
             bg-gradient-to-br from-emerald-500 to-emerald-600
             shadow-[0_4px_12px_rgba(16,185,129,0.3)]
-            transition-all ease-out duration-500
+            transition-all ease-out duration-500 touch-none
             ${isDragging ? 'cursor-grabbing shadow-[0_6px_16px_rgba(16,185,129,0.4)]' : 'cursor-grab'}
             flex-shrink-0
           `}

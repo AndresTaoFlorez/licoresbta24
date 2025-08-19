@@ -2,23 +2,22 @@ import { useState, useEffect } from 'react';
 import './SwipeToEnter.scss';
 import Slider from '../../components/components/Slider/index.jsx';
 import AnimatedWrapper from '../../components/components/AnimatedWrapper.jsx';
+import { checkSwipeUnlocked, unlockSwipe } from '../../utils/checkSwipeUnlocked.js'
 
 const getInitialUnlockedState = () => {
   if (typeof window === "undefined") return false;
 
-  let value = localStorage.getItem("swipeToEnterUnlocked");
+  return checkSwipeUnlocked();
 
-  if (value === null) {
-    localStorage.setItem("swipeToEnterUnlocked", "false");
-    return false;
-  }
-
-  return value === "true";
 };
-
 
 export default function SwipeToEnter({ children }) {
   const [isUnlocked, setIsUnlocked] = useState(getInitialUnlockedState);
+
+  const handleUnlocked = (param) => {
+    setIsUnlocked(param);
+    unlockSwipe();
+  };
 
   // Si está desbloqueado, mostrar el contenido con transición
   return (
@@ -54,7 +53,7 @@ export default function SwipeToEnter({ children }) {
               </div>
 
               {/* Slider */}
-              <Slider onConfirm={() => setIsUnlocked(true)} />
+              <Slider onConfirm={() => handleUnlocked(true)} />
 
               <div className="mt-3 max-[490px]:mt-4 p-2 max-[490px]:p-3 bg-black/20 rounded-lg border border-emerald-500/20">
                 <p className="text-emerald-200/60 text-[11px] max-[490px]:text-xs sm:text-[11px] leading-relaxed text-center">

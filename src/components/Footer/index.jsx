@@ -21,7 +21,7 @@ function Footer() {
             {/* Logos de Redes Sociales */}
             <div className="flex justify-center space-x-10">
               <a
-                href="https://www.instagram.com/licoresbogota24"
+                href="https://www.instagram.com/licoresbogota24_"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-16 h-16 border border-gray-600 rounded-lg flex items-center justify-center hover:border-pink-400 hover:bg-pink-900 transition-all duration-300 group"

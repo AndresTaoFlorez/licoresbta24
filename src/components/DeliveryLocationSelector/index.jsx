@@ -7,15 +7,15 @@ import locations from "./locations.json"; // JSON de ubicaciones
 export function useDeliveryLocation() {
   const { isOpen } = useLocation();
 
-  const Modal = () =>
-    isOpen ? <DeliveryLocationSelector /> : null;
+  // Modal solo se renderiza si isOpen y isUnlocked son true
+  const Modal = () => isOpen ? <DeliveryLocationSelector /> : null;
 
   return { Modal };
 }
 
 const DeliveryLocationSelector = () => {
   const { handleSubmit } = useForm();
-  const {close, setLocation} = useLocation();
+  const { close, setLocation } = useLocation();
   const [selected, setSelected] = useState(null);
   const [search, setSearch] = useState("");
   const modalRef = useRef(null);
@@ -97,8 +97,8 @@ const DeliveryLocationSelector = () => {
                     key={city}
                     onClick={() => setSelected(`${dept.departamento} - ${city}`)}
                     className={`px-3 py-2 rounded-lg cursor-pointer transition text-green-100 ${selected === `${dept.departamento} - ${city}`
-                        ? "bg-green-700 text-white border border-green-400"
-                        : "hover:bg-green-800 hover:text-green-200"
+                      ? "bg-green-700 text-white border border-green-400"
+                      : "hover:bg-green-800 hover:text-green-200"
                       }`}
                   >
                     {city}
@@ -111,7 +111,7 @@ const DeliveryLocationSelector = () => {
           {/* Botón confirmar */}
           <button
             type="submit"
-            className="w-full bg-[#33623d] text-white py-2 rounded-lg font-medium hover:bg-green-700 transition"
+            className="w-full cursor-pointer bg-[#33623d] text-white py-2 rounded-lg font-medium hover:bg-green-700 transition"
           >
             Confirmar
           </button>

@@ -8,7 +8,6 @@ import { useDeliveryLocation } from './components/DeliveryLocationSelector/index
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from 'react'
 import useProducts from './customHooks/useProducts.jsx'
-import Categories from './components/Categories';
 import CategoryPage from './components/CategoryPage';
 
 function App() {
@@ -40,8 +39,8 @@ function App() {
       </SwipeToEnter>
 
       <Routes>
-        <Route path="/" element={<Categories />} />
-        <Route path="/categoria/:categoriaName" element={<CategoryPage allProducts={allProducts} />} />
+        <Route path="/" element={<SwipeToEnter />} />
+        <Route path="/:categoriaName" element={<CategoryPage allProducts={allProducts} />} />
       </Routes>
     </Router>
   )

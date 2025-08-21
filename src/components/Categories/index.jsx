@@ -14,7 +14,7 @@ function Categories() {
     const handleCategoryClick = (productname) => {
         const product = productname.trim();
         setCategories(product);
-        navigate(`/categoria/${encodeURIComponent(product)}`);
+        navigate(`/${encodeURIComponent(product)}`);
         console.log(product)
     };
 

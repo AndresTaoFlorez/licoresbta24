@@ -1,0 +1,18 @@
+{
+  "locations": [
+    {
+      "departamento": "Bogotá",
+      "ciudades": [
+        "Bosa",
+        "Fontibón",
+        "Chapinero",
+        "Suba",
+        "Usaquén",
+        "Kennedy",
+        "Engativá",
+        "Teusaquillo",
+        "Otros"
+      ]
+    }
+  ]
+}

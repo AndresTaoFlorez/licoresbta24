@@ -12,8 +12,8 @@ $emerald-200: #a7f3d0;
   width: 100vw;
   height: 100vh;
   z-index: 9999;
-  display: flex;
   align-items: center;
+  // position flex is using with tailwind
   justify-content: center;
   overflow: hidden;
   background: linear-gradient(135deg, #377945 0%, #141b05 100%);

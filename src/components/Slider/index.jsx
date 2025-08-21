@@ -1,9 +1,11 @@
 import { useState, useRef, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
+import { useLocation } from "../../context/context";
 
 export default function Slider({ onConfirm, text = "Desliza para confirmar →" }) {
   const [slideComplete, setSlideComplete] = useState(false);
   const [isContracting, setIsContracting] = useState(false);
+  const { setLocalStorage } = useLocation();
   const [isDragging, setIsDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [isDisappearing, setIsDisappearing] = useState(false);
@@ -57,7 +59,9 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
     if (dragX > maxDrag * 0.75) {
       // COMPLETADO
       setSlideComplete(true);
-      localStorage.setItem('swipeToEnterUnlocked', 'true');
+      setLocalStorage({
+        swipeToEnterUnlocked: true,
+      });
       setDragX(maxDrag);
       
       // Secuencia de animaciones

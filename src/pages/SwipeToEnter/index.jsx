@@ -1,29 +1,29 @@
-import { useState, useEffect } from 'react';
-import './SwipeToEnter.scss';
-import Slider from '../../components/components/Slider/index.jsx';
-import AnimatedWrapper from '../../components/components/AnimatedWrapper.jsx';
-import { checkSwipeUnlocked, unlockSwipe } from '../../utils/checkSwipeUnlocked.js'
+import "./SwipeToEnter.scss";
+import Slider from "../../components/Slider/index.jsx";
+import AnimatedWrapper from "../../components/AnimatedWrapper.jsx";
+import { useLocation } from "../../context/context.jsx";
 
-const getInitialUnlockedState = () => {
-  if (typeof window === "undefined") return false;
+export default function SwipeToEnter({ children, loading }) {
+  // usamos el custom hook
+  const { isUnlocked, unlockSwipe } = useLocation()
 
-  return checkSwipeUnlocked();
+  
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen w-full bg-white">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-green-600"></div>
+      </div>
+    );
+  }
 
-};
-
-export default function SwipeToEnter({ children }) {
-  const [isUnlocked, setIsUnlocked] = useState(getInitialUnlockedState);
-
-  const handleUnlocked = (param) => {
-    setIsUnlocked(param);
+  const handleUnlock = () => {
     unlockSwipe();
   };
 
-  // Si está desbloqueado, mostrar el contenido con transición
   return (
     <>
       <AnimatedWrapper isUnlocked={isUnlocked}>
-        <div className="SwipeToEnter">
+        <div className="SwipeToEnter flex flex-col h-screen">
           <div className="SwipeToEnter__background">
             <div className="sphere sphere--white"></div>
             <div className="sphere sphere--green-light"></div>
@@ -47,25 +47,24 @@ export default function SwipeToEnter({ children }) {
                   Soy mayor de 18 años
                 </h1>
                 <p className="text-emerald-100/90 text-md max-[490px]:text-sm sm:text-base leading-relaxed">
-                  Desliza si eres mayor de edad. Al ingresar autorizas el tratamiento de
-                  datos personales y los términos y condiciones.
+                  Desliza si eres mayor de edad. Al ingresar autorizas el
+                  tratamiento de datos personales y los términos y condiciones.
                 </p>
               </div>
 
               {/* Slider */}
-              <Slider onConfirm={() => handleUnlocked(true)} />
+              <Slider onConfirm={handleUnlock} />
 
               <div className="mt-3 max-[490px]:mt-4 p-2 max-[490px]:p-3 bg-black/20 rounded-lg border border-emerald-500/20">
                 <p className="text-emerald-200/60 text-[11px] max-[490px]:text-xs sm:text-[11px] leading-relaxed text-center">
                   ⚠️ Este sitio contiene información sobre bebidas alcohólicas. Solo
-                  para mayores de 18 años. El consumo excesivo de alcohol es perjudicial
-                  para la salud.
+                  para mayores de 18 años. El consumo excesivo de alcohol es
+                  perjudicial para la salud.
                 </p>
               </div>
             </div>
           </div>
         </div>
-
       </AnimatedWrapper>
       {children}
     </>

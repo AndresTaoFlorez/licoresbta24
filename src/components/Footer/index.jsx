@@ -30,7 +30,7 @@ function Footer() {
               </a>
 
               <a
-                href="https://www.tiktok.com/@licoresbogota24"
+                href="https://www.tiktok.com/@licoresbogota247"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-16 h-16 border border-gray-600 rounded-lg flex items-center justify-center hover:border-gray-400 hover:bg-gray-900 transition-all duration-300 group"
@@ -84,7 +84,7 @@ function Footer() {
         </section>
 
         {/* Advertencia al consumo de alcohol */}
-       <div className="text-center font-bold text-md opacity-70 max-w-3xl mx-auto leading-relaxed">
+        <div className="text-center font-bold text-md opacity-70 max-w-3xl mx-auto leading-relaxed">
           El consumo de bebidas debe realizarse de manera responsable y únicamente por personas en edad legal para hacerlo.
           Disfruta con moderación y cuida de ti y de los tuyos.
         </div>
@@ -96,11 +96,11 @@ function Footer() {
 
             {/* Logos métodos de pago */}
             <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8">
-              <img src="/nequi.svg" alt="Nequi" className="w-14 h-8 sm:w-14 sm:h-10 object-contain" />
-              <img src="/daviplata.svg" alt="Daviplata" className="w-14 h-8 sm:w-16 sm:h-10 object-contain" />
-              <img src="/visa.svg" alt="Visa" className="w-14 h-8 sm:w-14 sm:h-10 object-contain" />
-              <img src="/mastercard.svg" alt="MasterCard" className="w-14 h-8 sm:w-14 sm:h-10 object-contain" />
-              <img src="/maestro.svg" alt="Maestro" className="w-14 h-8 sm:w-14 sm:h-10 object-contain" />
+              <img src="/nequi.svg" alt="Nequi" className="w-18 h-12 sm:w-18 sm:h-10 object-contain drop-shadow-sm  bg-[#2b5e2c] py-2 px-3 rounded-lg" />
+              <img src="/daviplata.svg" alt="Daviplata" className="w-18 h-12 sm:w-16 sm:h-10 object-contain drop-shadow-md bg-[#2b5e2c] py-2 px-3 rounded-lg" />
+              <img src="/visa.svg" alt="Visa" className="w-18 h-12 sm:w-18 sm:h-10 object-contain drop-shadow-sm bg-[#2b5e2c] py-2 px-3 rounded-lg" />
+              <img src="/mastercard.svg" alt="MasterCard" className="w-18 h-12 sm:w-18 sm:h-10 object-contain drop-shadow-sm bg-[#2b5e2c] py-2 px-3 rounded-lg" />
+              <img src="/maestro.svg" alt="Maestro" className="w-18 h-12 sm:w-18 sm:h-10 object-contain drop-shadow-sm bg-[#2b5e2c] py-2 px-3 rounded-lg" />
             </div>
           </div>
         </div>

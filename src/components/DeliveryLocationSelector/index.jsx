@@ -54,7 +54,7 @@ const DeliveryLocationSelector = () => {
     .filter((d) => d.ciudades.length > 0);
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-[3px] flex items-center justify-center z-2">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-[3px] flex items-center justify-center z-3">
       {/* Card principal */}
       <div
         ref={modalRef}

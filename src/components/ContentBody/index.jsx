@@ -17,7 +17,7 @@ const ContentBody = () => {
       <Products />
 
       {/* Botón de WhatsApp */}
-      <div className="fixed bottom-4 right-4 z-1">
+      <div className="fixed bottom-4 right-4 z-2">
         <WhatsAppButton />
       </div>
 

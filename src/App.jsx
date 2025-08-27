@@ -31,12 +31,24 @@ function App() {
 
   return (
     <Router>
-      <SwipeToEnter loading={loading}>
-        <Modal />
-        <Header />
-        <ContentBody />
-        <Footer />
-      </SwipeToEnter>
+      {/* <div className='bg-[#235936] '> */}
+      <div className='bg-[#2b5e2c]'>
+
+        <div className="SwipeToEnter__background">
+          <div className="sphere sphere--white"></div>
+          <div className="sphere sphere--green-light"></div>
+          <div className="sphere sphere--emerald"></div>
+          <div className="sphere sphere--white-dim"></div>
+          <div className="sphere sphere--center"></div>
+        </div>
+
+        <SwipeToEnter loading={loading}>
+          <Modal />
+          <Header />
+          <ContentBody />
+          <Footer />
+        </SwipeToEnter>
+      </div>
 
       <Routes>
         <Route path="/" element={<SwipeToEnter />} />

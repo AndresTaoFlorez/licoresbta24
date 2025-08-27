@@ -6,7 +6,7 @@ function ProductCard({ index, product }) {
     return (
         <div
             key={index}
-            className="group m-auto relative max-w-[200px] w-full rounded-2xl bg-[#eafff3] shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col backdrop-blur-sm">
+            className="group relative max-w-[200px] w-full rounded-2xl bg-[#eafff3] shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col backdrop-blur-sm">
 
             {/* Imagen del producto con fondo blanco */}
             <div className="relative w-full h-52 flex items-center justify-center overflow-hidden rounded-t-2xl bg-white">
@@ -51,7 +51,7 @@ function ProductCard({ index, product }) {
                         </span>
                     </div>
 
-                    {/* <button
+                    <button
                         className="group/btn flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 text-white shrink-0"
                         style={{ backgroundColor: '#33623d' }}
                         onMouseEnter={(e) => (e.target.style.backgroundColor = '#141b05')}
@@ -71,9 +71,9 @@ function ProductCard({ index, product }) {
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4m.6 8L5 5H3m4 8v8a2 2 0 002 2h6a2 2 0 002-2v-8"
                             />
                         </svg>
-                    </button> */}
+                    </button>
 
-                    <button
+                    {/* <button
                         className="group/btn flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 text-white shrink-0"
                         style={{ backgroundColor: '#33623d' }}
                         onMouseEnter={(e) => (e.target.style.backgroundColor = '#141b05')}
@@ -82,7 +82,7 @@ function ProductCard({ index, product }) {
                     >
                         <Grip />
 
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </div>

@@ -5,10 +5,16 @@ function Header() {
   const { open, location } = useLocation();
 
   return (
-    <div className="flex flex-col h-80 max-[365px]:h-72 w-auto bg-gradient-to-b from-[#000000] via-[#294a30] via-[20%] to-[#002410]">
+    <div className="flex flex-col h-80 max-[365px]:h-72 w-auto relative overflow-hidden">
 
       {/* Efecto de brillo animado */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 transform skew-y-12 animate-pulse"></div>
+      {/* <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 rotate-10
+                  bg-gradient-to-r from-transparent via-black/50 to-transparent 
+                  blur-sm" />
+      </div> */}
+
+
 
       {/* Ubicación */}
       <div
@@ -38,7 +44,7 @@ function Header() {
           <div className="animate-logo-bounce">
             <div className="relative flex flex-col items-center group animate-fade-in-accelerate">
               <img
-                className="w-[500px] max-w-full max-[773px]:w-[400px] sm:w-[350px] transition-all animate-glow"
+                className="w-[500px] max-w-full max-[773px]:w-[400px] sm:w-[350px] transition-all animate-glow drop-shadow-md:"
                 src="/licoresbta_logo.svg"
                 alt="licoresbta_logo"
               />

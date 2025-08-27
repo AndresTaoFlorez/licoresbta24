@@ -23,6 +23,7 @@ export default function SwipeToEnter({ children, loading }) {
   return (
     <>
       <AnimatedWrapper isUnlocked={isUnlocked}>
+      {/* <AnimatedWrapper > */}
         <div className="SwipeToEnter flex flex-col h-screen">
           <div className="SwipeToEnter__background">
             <div className="sphere sphere--white"></div>
@@ -33,7 +34,7 @@ export default function SwipeToEnter({ children, loading }) {
           </div>
 
           <div className="SwipeToEnter__content px-4 [490px]:px-6 sm:px-8">
-            <div className="bg-black/20 backdrop-blur-lg rounded-3xl p-4 [490px]:p-6 sm:p-8 w-full max-w-md border border-emerald-400/30 shadow-2xl">
+            <div className="bg-black/20 backdrop-blur-lg rounded-3xl p-4 [490px]:p-6 sm:p-8 w-full max-w-md border border-emerald-400/30">
               <div className="text-center mb-4 [490px]:mb-6 sm:mb-8">
                 <div className="logo w-full max-w-[280px] [490px]:max-w-[320px] sm:w-80 h-auto mx-auto bg-gradient-to-r rounded-full flex items-center justify-center mb-14 mt-16 [490px]:mb-12 sm:mb-14 [490px]:mt-8 sm:mt-10">
                   <img

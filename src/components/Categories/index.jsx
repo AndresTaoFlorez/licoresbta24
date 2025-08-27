@@ -39,10 +39,9 @@ function Categories() {
 
     const scroll = (direction) => {
         if (scrollRef.current) {
-            const { scrollLeft, clientWidth } = scrollRef.current;
-            const scrollAmount = clientWidth * 0.6; // adjust slide distance
-            scrollRef.current.scrollTo({
-                left: direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
+            const { clientWidth } = scrollRef.current;
+            scrollRef.current.scrollBy({
+                left: direction === "left" ? -clientWidth / 2 : clientWidth / 2,
                 behavior: "smooth",
             });
         }
@@ -50,13 +49,25 @@ function Categories() {
 
 
     return (
-        <div className="flex flex-col w-full ">
-            <div className="absolute -z-1 h-full inset-0 bg-gradient-to-b from-[#141b05] to-[#33623d] w-full">FONDO</div>
+        <div className="flex flex-col ">
+            <div className="absolute -z-1 h-full inset-0 bg-[#235936] w-full"></div>
 
-            <div className="flex flex-col p-6 mx-4 rounded-2xl bg-gradient-to-br from-[#baf5d9] via-[#29613a] to-[#0f2f1c] backdrop-blur-md bg-black/20 [490px]:p-6 sm:p-8 border border-emerald-400/30 shadow-2xl">
-                {/* Header Section */}
+            <div
+                className="
+                relative flex flex-col
+                w-[calc(100vw-4rem)]
+                min-[992px]:w-[calc(992px-4rem)]
+                mx-4 p-6 sm:p-8 [490px]:p-6
+                rounded-2xl border border-emerald-400/30
+                bg-gradient-to-br from-[#2a6b41be] via-[#1e4c2eb6] to-[#1e4c2ebc]
+                bg-black/20 backdrop-blur-md
+                shadow-[0_0_20px_rgba(0,0,0,0.3)]
+                overflow-hidden
+                "
+            >
+                {/* Text in the categories section */}
                 <div className="mb-4 text-center">
-                    <h1 className="text-xl font-bold mb-1.5 tracking-tight text-[#29380a]">
+                    <h1 className="text-xl font-bold mb-1.5 tracking-tight text-[#a1b373]">
                         NUESTRO MUNDO DE SABORES
                     </h1>
                     <p className="text-md font-medium text-[#d9eddc]">
@@ -68,51 +79,71 @@ function Categories() {
                 </div>
 
                 {/* Categories List with Fade Effect */}
-                <div className="relative overflow-x-auto scroll-smooth">
-
-                    <div className="w-full flex items-center gap-4 ">
+                <div className="relative">
+                    <div className="w-full flex items-center gap-4">
                         {/* Left Arrow */}
                         <button
                             onClick={() => scroll("left")}
-                            className="flex-shrink-0 bg-white shadow-md rounded-full p-2
-                   hover:bg-[#91d5a0] hover:text-white transition"
+                            className="flex-shrink-0 bg-white shadow-md rounded-full p-2 z-20 relative
+                                hover:bg-[#91d5a0] hover:text-white transition-all duration-300"
                         >
                             <ChevronLeft size={20} />
                         </button>
 
-                        {/* Scrollable Categories */}
-                        <ul
-                            ref={scrollRef}
-                            className="flex gap-4 pt-2 pb-6 px-8 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#c9e8d0]"
-                        >
-                            {Array.from(new Set(Object.values(allProducts).map((p) => p.CATEGORIA))).map((categoria) => (
-                                <li
-                                    key={categoria}
-                                    className="group flex-shrink-0 px-5 py-3 rounded-full shadow-md 
-             bg-white text-[#33623d]
-             hover:bg-[#94cfa2] hover:text-[#102516]
-             transition-all duration-300 cursor-pointer text-nowrap
-             font-medium text-sm tracking-wide snap-start
-             hover:scale-105 active:scale-95"
-                                    onClick={() => handleCategoryClick(categoria)}
-                                >
-                                    {capitalizeFirstLetter(categoria)}
-                                </li>
+                        {/* Scrollable Categories Container with Fade Effects */}
+                        <div className="relative flex-1 overflow-hidden">
 
-                            ))}
-                        </ul>
+                            {/* Scrollable Categories */}
+                            <ul
+                                ref={scrollRef}
+                                className="flex gap-4 pt-2 pb-6 px-8 overflow-x-auto scroll-smooth 
+                       snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent 
+                       scrollbar-thumb-[#c9e8d0]"
+                                style={{
+                                    maskImage:
+                                        "linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)",
+                                    WebkitMaskImage:
+                                        "linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)",
+                                }}
+                            >
+                                {Array.from(
+                                    new Set(Object.values(allProducts).map((p) => p.CATEGORIA))
+                                ).map((categoria) => (
+                                    <li
+                                        key={categoria}
+                                        className="
+                                         group flex-shrink-0 
+                                        px-3 py-1 text-[10px] tracking-normal   /* 📱 base = mobile */
+                                        sm:px-4 sm:py-2 sm:text-xs sm:tracking-wide   /* tablets */
+                                        md:px-5 md:py-3 md:text-sm                /* desktop */
+                                        rounded-full shadow-md 
+                                        bg-white text-[#33623d]
+                                        hover:bg-[#94cfa2] hover:text-[#102516]
+                                        transition-all duration-300 cursor-pointer 
+                                        whitespace-normal sm:whitespace-nowrap
+                                        font-medium snap-start
+                                        hover:scale-105 active:scale-95
+                                    "
+                                        onClick={() => handleCategoryClick(categoria)}
+                                    >
+                                        {capitalizeFirstLetter(categoria)}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
                         {/* Right Arrow */}
                         <button
                             onClick={() => scroll("right")}
-                            className="flex-shrink-0 bg-white shadow-md rounded-full p-2
-                   hover:bg-[#33623d] hover:text-white transition"
+                            className="flex-shrink-0 bg-white shadow-md rounded-full p-2 z-20 relative
+                     hover:bg-[#33623d] hover:text-white transition-all duration-300"
                         >
                             <ChevronRight size={20} />
                         </button>
                     </div>
                 </div>
             </div>
+
         </div>
     );
 }

@@ -1,10 +1,13 @@
-import './index.css';
+import { BrowserRouter as Router } from "react-router-dom";
 import { createRoot } from 'react-dom/client'
+import { LocationProvider } from './context/AppContext.jsx'
 import App from './App.jsx'
-import { LocationProvider } from './context/context.jsx'
+import './shared/styles/index.css'
 
 createRoot(document.getElementById('root')).render(
   <LocationProvider>
-    <App className="app-container" />
+    <Router>
+      <App />
+    </Router>
   </LocationProvider>
 )

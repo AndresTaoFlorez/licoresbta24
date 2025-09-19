@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "../../context/context.jsx";
-import locations from "./locations.json"; // JSON de ubicaciones
+import { useAppContext } from "../../../context/AppContext";
+import locations from "./locations.json"
 
 // Hook para controlar desde fuera
 export function useDeliveryLocation() {
-  const { isOpen } = useLocation();
+  const { isOpen } = useAppContext();
 
   // Modal solo se renderiza si isOpen y isUnlocked son true
   const Modal = () => isOpen ? <DeliveryLocationSelector /> : null;
@@ -15,7 +15,7 @@ export function useDeliveryLocation() {
 
 const DeliveryLocationSelector = () => {
   const { handleSubmit } = useForm();
-  const { close, setLocation } = useLocation();
+  const { close, setLocation } = useAppContext();
   const [selected, setSelected] = useState(null);
   const [search, setSearch] = useState("");
   const modalRef = useRef(null);

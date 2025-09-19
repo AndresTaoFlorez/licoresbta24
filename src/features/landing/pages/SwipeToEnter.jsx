@@ -1,13 +1,13 @@
-import "./SwipeToEnter.scss";
-import Slider from "../../components/Slider/index.jsx";
-import AnimatedWrapper from "../../components/AnimatedWrapper.jsx";
-import { useLocation } from "../../context/context.jsx";
+import Slider from "../../../shared/components/Slider.jsx";
+import AnimatedWrapper from "../../../shared/components/AnimatedWrapper.jsx";
+import { useAppContext } from "../../../context/AppContext.jsx";
+import "../../../shared/styles/swipeToEnter.scss";
 
 export default function SwipeToEnter({ children, loading }) {
   // usamos el custom hook
-  const { isUnlocked, unlockSwipe } = useLocation()
+  const { isUnlocked, unlockSwipe } = useAppContext()
 
-  
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen w-full bg-white">
@@ -21,10 +21,10 @@ export default function SwipeToEnter({ children, loading }) {
   };
 
   return (
-    <>
+    <div className="relative flex flex-col min-h-screen w-full bg-[#2b5e2c]">
       <AnimatedWrapper isUnlocked={isUnlocked}>
-      {/* <AnimatedWrapper > */}
-        <div className="SwipeToEnter flex flex-col h-screen">
+        {/*// swiper*/}
+        <div className="SwipeToEnter flex flex-col h-screen ">
           <div className="SwipeToEnter__background">
             <div className="sphere sphere--white"></div>
             <div className="sphere sphere--green-light"></div>
@@ -67,7 +67,10 @@ export default function SwipeToEnter({ children, loading }) {
           </div>
         </div>
       </AnimatedWrapper>
+      {/* Content */}
       {children}
-    </>
+    </div>
   );
 }
+
+

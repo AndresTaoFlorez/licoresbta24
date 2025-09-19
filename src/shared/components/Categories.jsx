@@ -1,21 +1,29 @@
-import { useEffect, useRef } from "react";
-import useProducts from "../../customHooks/useProducts";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "../../context/context";
+import { useAppContext } from "../../context/AppContext";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // icons
 
 
 function Categories() {
-    const { allProducts } = useProducts();
-    const { setCategories } = useLocation();
+    const { setCategory, products } = useAppContext();
     const navigate = useNavigate();
 
+    const categories = Array.from(
+        new Set(Object.values(products)
+            .sort((a, b) => {
+                if (a.CATEGORIA === 'OTROS') return 1
+                if (b.CATEGORIA === 'OTROS') return -1
+                return a.CATEGORIA.localeCompare(b.CATEGORIA)
+            }) // Sort categories alphabetically
+            .map((p) => p.CATEGORIA))
+    );
 
-    const handleCategoryClick = (productname) => {
-        const product = productname.trim();
-        setCategories(product);
-        navigate(`/${encodeURIComponent(product)}`);
-        console.log(product)
+
+    const handleCategoryClick = (categoryName) => {
+        const category = categoryName.trim();
+        setCategory(category); // set Category to change the filteredProducts
+        navigate(`/${encodeURIComponent(category)}`);
+        console.log(category);
     };
 
 
@@ -49,9 +57,8 @@ function Categories() {
 
 
     return (
-        <div className="flex flex-col ">
+        <div className="flex flex-col mb-6 mx-auto w-full max-w-[992px] relative">
             <div className="absolute -z-1 h-full inset-0 bg-[#235936] w-full"></div>
-
             <div
                 className="
                 relative flex flex-col
@@ -66,7 +73,7 @@ function Categories() {
                 "
             >
                 {/* Text in the categories section */}
-                <div className="mb-4 text-center">
+                <div className="mb-5 text-center">
                     <h1 className="text-xl font-bold mb-1.5 tracking-tight text-[#a1b373]">
                         NUESTRO MUNDO DE SABORES
                     </h1>
@@ -74,8 +81,6 @@ function Categories() {
                         Venta únicamente para mayores de 18 años
                     </p>
 
-                    {/* Decorative divider */}
-                    <div className="w-24 h-1 mx-auto mt-4 rounded-full bg-[#79c68a]"></div>
                 </div>
 
                 {/* Categories List with Fade Effect */}
@@ -85,7 +90,10 @@ function Categories() {
                         <button
                             onClick={() => scroll("left")}
                             className="flex-shrink-0 bg-white shadow-md rounded-full p-2 z-20 relative
-                                hover:bg-[#91d5a0] hover:text-white transition-all duration-300"
+                                hover:bg-[#91d5a0] hover:text-white transition-all duration-300
+                                max-[992px]:p-1.5
+                                max-[490px]:hidden
+                            "
                         >
                             <ChevronLeft size={20} />
                         </button>
@@ -94,11 +102,9 @@ function Categories() {
                         <div className="relative flex-1 overflow-hidden">
 
                             {/* Scrollable Categories */}
-                            <ul
+                            <div
                                 ref={scrollRef}
-                                className="flex gap-4 pt-2 pb-6 px-8 overflow-x-auto scroll-smooth 
-                       snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent 
-                       scrollbar-thumb-[#c9e8d0]"
+                                className="flex gap-4 pt-2 pb-6 px-8 overflow-x-auto scroll-smooth scrollbar-x"
                                 style={{
                                     maskImage:
                                         "linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)",
@@ -106,37 +112,39 @@ function Categories() {
                                         "linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%)",
                                 }}
                             >
-                                {Array.from(
-                                    new Set(Object.values(allProducts).map((p) => p.CATEGORIA))
-                                ).map((categoria) => (
+                                {categories.map((categoria) => (
                                     <li
                                         key={categoria}
                                         className="
-                                         group flex-shrink-0 
-                                        px-3 py-1 text-[10px] tracking-normal   /* 📱 base = mobile */
-                                        sm:px-4 sm:py-2 sm:text-xs sm:tracking-wide   /* tablets */
-                                        md:px-5 md:py-3 md:text-sm                /* desktop */
-                                        rounded-full shadow-md 
-                                        bg-white text-[#33623d]
-                                        hover:bg-[#94cfa2] hover:text-[#102516]
-                                        transition-all duration-300 cursor-pointer 
-                                        whitespace-normal sm:whitespace-nowrap
-                                        font-medium snap-start
-                                        hover:scale-105 active:scale-95
+                                            list-none
+                                            group flex-shrink-0 
+                                            px-3 py-1 text-[10px] tracking-normal   /* 📱 base = mobile */
+                                            sm:px-4 sm:py-2 sm:text-xs sm:tracking-wide   /* tablets */
+                                            md:px-5 md:py-3 md:text-sm                /* desktop */
+                                            rounded-full shadow-md 
+                                            bg-white text-[#33623d]
+                                            hover:bg-[#94cfa2] hover:text-[#102516]
+                                            transition-all duration-300 cursor-pointer 
+                                            whitespace-normal sm:whitespace-nowrap
+                                            font-medium snap-start
+                                            hover:scale-105 active:scale-95
                                     "
                                         onClick={() => handleCategoryClick(categoria)}
                                     >
                                         {capitalizeFirstLetter(categoria)}
                                     </li>
                                 ))}
-                            </ul>
+                            </div>
                         </div>
 
                         {/* Right Arrow */}
                         <button
                             onClick={() => scroll("right")}
                             className="flex-shrink-0 bg-white shadow-md rounded-full p-2 z-20 relative
-                     hover:bg-[#33623d] hover:text-white transition-all duration-300"
+                            hover:bg-[#91d5a0] hover:text-white transition-all duration-300
+                            max-[992px]:p-1.5
+                            max-[490px]:hidden
+                        "
                         >
                             <ChevronRight size={20} />
                         </button>

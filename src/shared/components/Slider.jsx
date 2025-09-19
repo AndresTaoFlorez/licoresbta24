@@ -1,11 +1,11 @@
 import { useState, useRef, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
-import { useLocation } from "../../context/context";
+import { useAppContext } from "../../context/AppContext";
 
 export default function Slider({ onConfirm, text = "Desliza para confirmar →" }) {
   const [slideComplete, setSlideComplete] = useState(false);
   const [isContracting, setIsContracting] = useState(false);
-  const { setLocalStorage } = useLocation();
+  const { setLocalStorage } = useAppContext();
   const [isDragging, setIsDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [isDisappearing, setIsDisappearing] = useState(false);

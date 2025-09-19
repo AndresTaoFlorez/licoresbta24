@@ -1,60 +1,37 @@
-import './App.css'
-import Header from './components/Header/index.jsx'
-import ContentBody from './components/ContentBody/index.jsx'
-import Footer from './components/Footer/index.jsx'
-import SwipeToEnter from './pages/SwipeToEnter/index.jsx'
-import { useLocation } from './context/context.jsx'
-import { useDeliveryLocation } from './components/DeliveryLocationSelector/index.jsx'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect, useState } from 'react'
-import useProducts from './customHooks/useProducts.jsx'
-import CategoryPage from './components/CategoryPage';
-
+import './shared/styles/App.css'
+import SwipeToEnter from './features/landing/pages/SwipeToEnter.jsx'
+import { useDeliveryLocation } from './features/location/components/DeliveryLocationSelector.jsx'
+import Header from './shared/components/Header.jsx'
+import Footer from './shared/components/Footer.jsx'
+import { useAppContext } from './context/AppContext.jsx'
+import ContentBody from './pages/ContentBody.jsx'
 function App() {
 
+
   const { Modal } = useDeliveryLocation();
-  const { open } = useLocation();
-  const { allProducts } = useProducts();
+  const { loading } = useAppContext();
 
-  const [loading, setLoading] = useState(true);
+  // <!-- Google tag (gtag.js) -->
+  if (import.meta.env.MODE === "production") {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=AW-17474983793";
+    document.head.appendChild(script);
 
-  useEffect(() => {
-    open();
-  }, []);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'AW-17474983793');
+  }
 
-  // Cuando allProducts cambie y tenga datos, termina el loading
-  useEffect(() => {
-    if (allProducts && Object.keys(allProducts).length > 0) {
-      setLoading(false);
-    }
-  }, [allProducts]);
 
   return (
-    <Router>
-      {/* <div className='bg-[#235936] '> */}
-      <div className='bg-[#2b5e2c]'>
-
-        <div className="SwipeToEnter__background">
-          <div className="sphere sphere--white"></div>
-          <div className="sphere sphere--green-light"></div>
-          <div className="sphere sphere--emerald"></div>
-          <div className="sphere sphere--white-dim"></div>
-          <div className="sphere sphere--center"></div>
-        </div>
-
-        <SwipeToEnter loading={loading}>
-          <Modal />
-          <Header />
-          <ContentBody />
-          <Footer />
-        </SwipeToEnter>
-      </div>
-
-      <Routes>
-        <Route path="/" element={<SwipeToEnter />} />
-        <Route path="/:categoriaName" element={<CategoryPage allProducts={allProducts} />} />
-      </Routes>
-    </Router>
+    <SwipeToEnter loading={loading}>
+      <Modal />
+      <Header />
+      <ContentBody />
+      <Footer />
+    </SwipeToEnter>
   )
 }
 

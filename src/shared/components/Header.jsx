@@ -1,20 +1,11 @@
-import { useLocation } from "../../context/context";
+import { useAppContext } from "../../context/AppContext";
 import { MapPin } from "lucide-react";
 
 function Header() {
-  const { open, location } = useLocation();
+  const { open, location } = useAppContext();
 
   return (
     <div className="flex flex-col h-80 max-[365px]:h-72 w-auto relative overflow-hidden">
-
-      {/* Efecto de brillo animado */}
-      {/* <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 rotate-10
-                  bg-gradient-to-r from-transparent via-black/50 to-transparent 
-                  blur-sm" />
-      </div> */}
-
-
 
       {/* Ubicación */}
       <div
@@ -36,7 +27,7 @@ function Header() {
 
         {/* Contenedor del logo */}
         <a
-          href="#"
+          href="/home"
           target="_blank"
           rel="noopener noreferrer"
           className="block"
@@ -64,8 +55,6 @@ function Header() {
       <div className="absolute top-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
       <div className="absolute bottom-10 left-10 w-24 h-24 bg-white/10 rounded-full blur-lg"></div>
       <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-white/5 rounded-full blur-md"></div>
-
-
 
     </div >
   )

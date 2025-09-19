@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getProducts } from "../features/products/services/products";
 
 // ---------------------
 // Context with safe defaults
@@ -18,7 +20,6 @@ const LocationContext = createContext({
 
 export const LocationProvider = ({ children }) => {
 
-  
   // ---------------------
   // Location state
   // ---------------------
@@ -40,15 +41,33 @@ export const LocationProvider = ({ children }) => {
 
 
   // ---------------------
+  // Filtered Products
+  // ---------------------
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+
+  // ---------------------
   // Products
   // ---------------------
-  const [products, setProducts] = useState({});
+  const [products, setProducts] = useState([]);
 
   // ---------------------
   // Categories
   // ---------------------
-  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
 
+  useEffect(() => {
+    setFilteredProducts(() => {
+      if (!products) return [];
+      if (!category) return products;
+      return Object.values(products).filter(p => p.CATEGORIA.toLowerCase() === category.toLowerCase());
+    })
+  }, [category]);
+
+  // ---------------------
+  // Loading state
+  // ---------------------
+  const [loading, setLoading] = useState(false);
 
   // ---------------------
   // Modal state
@@ -58,7 +77,7 @@ export const LocationProvider = ({ children }) => {
   const close = () => setIsOpen(false);
 
   // ---------------------
-  // Storage state (all keys in one object)
+  // Storage state (all keys in one object) - FIXED
   // ---------------------
   const [storage, setStorageState] = useState(() => {
     const initialStorage = {};
@@ -67,26 +86,32 @@ export const LocationProvider = ({ children }) => {
     keys.forEach((key) => {
       try {
         const value = localStorage.getItem(key);
-        if (value) {
-          // parse only if looks like JSON
-          if (value.startsWith("{") || value.startsWith("[")) {
-            initialStorage[key] = JSON.parse(value);
+        if (value !== null && value !== undefined) {
+          // parse only if looks like JSON AND ends properly
+          if ((value.startsWith("{") && value.endsWith("}")) ||
+            (value.startsWith("[") && value.endsWith("]"))) {
+            try {
+              initialStorage[key] = JSON.parse(value);
+            } catch (parseError) {
+              // If JSON.parse fails, use default value
+              initialStorage[key] = key === "swipeToEnterUnlocked"
+                ? { unlocked: false, timestamp: null }
+                : null;
+            }
           } else {
             initialStorage[key] = value;
           }
         } else {
           // default values if key not in localStorage
-          initialStorage[key] =
-            key === "swipeToEnterUnlocked"
-              ? { unlocked: false, timestamp: null }
-              : null;
-        }
-      } catch {
-        // fallback if invalid JSON
-        initialStorage[key] =
-          key === "swipeToEnterUnlocked"
+          initialStorage[key] = key === "swipeToEnterUnlocked"
             ? { unlocked: false, timestamp: null }
             : null;
+        }
+      } catch (error) {
+        // fallback if invalid JSON or other error
+        initialStorage[key] = key === "swipeToEnterUnlocked"
+          ? { unlocked: false, timestamp: null }
+          : null;
       }
     });
 
@@ -96,16 +121,19 @@ export const LocationProvider = ({ children }) => {
   /**
    * Save one or more values to localStorage and sync state
    * Accepts object: { key1: value1, key2: value2 }
+   * @param {Object} newValues - Object with key-value pairs to save
    */
   const setLocalStorage = (newValues) => {
     setStorageState((prev) => {
       const updated = { ...prev, ...newValues };
       Object.entries(newValues).forEach(([key, value]) => {
         try {
-          if (value && typeof value === "object") {
+          if (value !== null && value !== undefined && typeof value === "object") {
             localStorage.setItem(key, JSON.stringify(value));
+          } else if (value === null || value === undefined) {
+            localStorage.removeItem(key);
           } else {
-            localStorage.setItem(key, value);
+            localStorage.setItem(key, String(value));
           }
         } catch (e) {
           console.warn(`Failed to save key "${key}" to localStorage`, e);
@@ -117,18 +145,30 @@ export const LocationProvider = ({ children }) => {
 
   /**
    * Get a value from storage state or localStorage
+   * @param {string} key - The key to retrieve
+   * @returns {*} The stored value or null if not found
    */
   const getLocalStorage = (key) => {
+    // First check in-memory state
     if (storage[key] !== undefined) return storage[key];
+
+    // Fallback to localStorage
     try {
       const value = localStorage.getItem(key);
-      if (!value) return null;
-      if (value.startsWith("{") || value.startsWith("[")) return JSON.parse(value);
+      if (value === null || value === undefined) return null;
+
+      // Parse JSON if it looks like JSON
+      if ((value.startsWith("{") && value.endsWith("}")) ||
+        (value.startsWith("[") && value.endsWith("]"))) {
+        return JSON.parse(value);
+      }
       return value;
-    } catch {
+    } catch (error) {
+      console.warn(`Failed to get key "${key}" from localStorage`, error);
       return null;
     }
   };
+
 
   // ---------------------
   // AgeValidation state
@@ -157,6 +197,20 @@ export const LocationProvider = ({ children }) => {
     setIsUnlocked(true);
   };
 
+  // ---------------------
+  // Load Data
+  // ---------------------
+  useEffect(() => {
+    setLoading(true);
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      setProducts(data);
+    };
+    open();
+    fetchProducts();
+    setLoading(false);
+  }, []);
+
 
   return (
     <LocationContext.Provider
@@ -173,8 +227,12 @@ export const LocationProvider = ({ children }) => {
         unlockSwipe,
         products,
         setProducts,
-        categories,
-        setCategories,
+        category,
+        setCategory,
+        filteredProducts,
+        setFilteredProducts,
+        loading,
+        setLoading
       }}
     >
       {children}
@@ -183,4 +241,4 @@ export const LocationProvider = ({ children }) => {
 };
 
 // Hook to consume context
-export const useLocation = () => useContext(LocationContext);
+export const useAppContext = () => useContext(LocationContext);

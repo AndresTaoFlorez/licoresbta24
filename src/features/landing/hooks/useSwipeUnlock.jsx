@@ -1,7 +1,6 @@
-import { useLocation } from "../context/context.jsx";
-import { useState } from "react";
+import { useProductContext } from "../../../context/AppContext.jsx";
 
-const { getLocalStorage, setLocalStorage } = useLocation();
+const { getLocalStorage, setLocalStorage } = useProductContext();
 
 const getInitialUnlocked = () => {
   let saved;

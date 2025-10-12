@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { setLocalStorage, getLocalStorage } from "./localStorage.js"
 import { getProducts } from "../features/products/services/products";
 
 // ---------------------
@@ -24,7 +24,7 @@ export const LocationProvider = ({ children }) => {
   // Location state
   // ---------------------
   const [location, setLocation] = useState(() => {
-    const saved = localStorage.getItem("location");
+    const saved = getLocalStorage("location");
     // Si no hay valor o es "null", usar string vacío
     if (!saved || saved === "null") return "Bogotá";
     return saved;
@@ -36,7 +36,8 @@ export const LocationProvider = ({ children }) => {
   useEffect(() => {
     // Evitar guardar "null" o undefined
     const valueToSave = location && location !== "null" ? location : "";
-    localStorage.setItem("location", valueToSave);
+    // localStorage.setItem("location", valueToSave);
+    setLocalStorage({ location: valueToSave })
   }, [location]);
 
 
@@ -84,90 +85,24 @@ export const LocationProvider = ({ children }) => {
     const keys = ["swipeToEnterUnlocked"]; // add other keys here
 
     keys.forEach((key) => {
-      try {
-        const value = localStorage.getItem(key);
-        if (value !== null && value !== undefined) {
-          // parse only if looks like JSON AND ends properly
-          if ((value.startsWith("{") && value.endsWith("}")) ||
-            (value.startsWith("[") && value.endsWith("]"))) {
-            try {
-              initialStorage[key] = JSON.parse(value);
-            } catch (parseError) {
-              // If JSON.parse fails, use default value
-              initialStorage[key] = key === "swipeToEnterUnlocked"
-                ? { unlocked: false, timestamp: null }
-                : null;
-            }
-          } else {
-            initialStorage[key] = value;
-          }
-        } else {
-          // default values if key not in localStorage
-          initialStorage[key] = key === "swipeToEnterUnlocked"
+      const value = getLocalStorage(key);
+
+      if (value !== null && value !== undefined) {
+        initialStorage[key] = value;
+      } else {
+        // Default values per key
+        initialStorage[key] =
+          key === "swipeToEnterUnlocked"
             ? { unlocked: false, timestamp: null }
             : null;
-        }
-      } catch (error) {
-        // fallback if invalid JSON or other error
-        initialStorage[key] = key === "swipeToEnterUnlocked"
-          ? { unlocked: false, timestamp: null }
-          : null;
       }
     });
 
     return initialStorage;
   });
 
-  /**
-   * Save one or more values to localStorage and sync state
-   * Accepts object: { key1: value1, key2: value2 }
-   * @param {Object} newValues - Object with key-value pairs to save
-   */
-  const setLocalStorage = (newValues) => {
-    setStorageState((prev) => {
-      const updated = { ...prev, ...newValues };
-      Object.entries(newValues).forEach(([key, value]) => {
-        try {
-          if (value !== null && value !== undefined && typeof value === "object") {
-            localStorage.setItem(key, JSON.stringify(value));
-          } else if (value === null || value === undefined) {
-            localStorage.removeItem(key);
-          } else {
-            localStorage.setItem(key, String(value));
-          }
-        } catch (e) {
-          console.warn(`Failed to save key "${key}" to localStorage`, e);
-        }
-      });
-      return updated;
-    });
-  };
-
-  /**
-   * Get a value from storage state or localStorage
-   * @param {string} key - The key to retrieve
-   * @returns {*} The stored value or null if not found
-   */
-  const getLocalStorage = (key) => {
-    // First check in-memory state
-    if (storage[key] !== undefined) return storage[key];
-
-    // Fallback to localStorage
-    try {
-      const value = localStorage.getItem(key);
-      if (value === null || value === undefined) return null;
-
-      // Parse JSON if it looks like JSON
-      if ((value.startsWith("{") && value.endsWith("}")) ||
-        (value.startsWith("[") && value.endsWith("]"))) {
-        return JSON.parse(value);
-      }
-      return value;
-    } catch (error) {
-      console.warn(`Failed to get key "${key}" from localStorage`, error);
-      return null;
-    }
-  };
+  // handleLocalStorage
+  //  ...
 
 
   // ---------------------
@@ -221,8 +156,6 @@ export const LocationProvider = ({ children }) => {
         open,
         close,
         storage,
-        setLocalStorage,
-        getLocalStorage,
         isUnlocked,
         unlockSwipe,
         products,

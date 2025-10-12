@@ -1,6 +1,5 @@
-import { useProductContext } from "../../../context/AppContext.jsx";
+import { getLocalStorage, setLocalStorage } from "../../../context/localStorage.js";
 
-const { getLocalStorage, setLocalStorage } = useProductContext();
 
 const getInitialUnlocked = () => {
   let saved;

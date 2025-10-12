@@ -1,11 +1,10 @@
 import { useState, useRef, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
-import { useAppContext } from "../../context/AppContext";
+import { setLocalStorage } from "../../context/localStorage";
 
 export default function Slider({ onConfirm, text = "Desliza para confirmar →" }) {
   const [slideComplete, setSlideComplete] = useState(false);
   const [isContracting, setIsContracting] = useState(false);
-  const { setLocalStorage } = useAppContext();
   const [isDragging, setIsDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [isDisappearing, setIsDisappearing] = useState(false);
@@ -26,11 +25,11 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
 
   const handlePointerDown = useCallback((e) => {
     if (slideComplete) return;
-    
+
     e.preventDefault();
     setIsDragging(true);
     startXRef.current = e.clientX - dragX;
-    
+
     if (buttonRef.current) {
       buttonRef.current.setPointerCapture(e.pointerId);
     }
@@ -42,13 +41,13 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
     const maxDrag = getMaxDrag();
     const currentX = e.clientX - startXRef.current;
     const clampedX = Math.max(0, Math.min(currentX, maxDrag));
-    
+
     setDragX(clampedX);
   }, [isDragging, slideComplete]);
 
   const handlePointerUp = useCallback((e) => {
     if (!isDragging) return;
-    
+
     setIsDragging(false);
     const maxDrag = getMaxDrag();
 
@@ -63,16 +62,16 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
         swipeToEnterUnlocked: true,
       });
       setDragX(maxDrag);
-      
+
       // Secuencia de animaciones
       setTimeout(() => {
         setIsContracting(true);
       }, 200);
-      
+
       setTimeout(() => {
         setIsDisappearing(true);
       }, 550);
-      
+
       setTimeout(() => {
         onConfirm?.();
       }, 600);
@@ -93,8 +92,8 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
         className={`
           relative rounded-full select-none flex items-center
           transition-all ease-in-out duration-500
-          ${slideComplete 
-            ? 'bg-emerald-900 border-2 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]' 
+          ${slideComplete
+            ? 'bg-emerald-900 border-2 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
             : 'bg-black/30 border-2 border-emerald-400/40 shadow-inner'
           }
         `}
@@ -110,7 +109,7 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
       >
         {/* Text */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <span 
+          <span
             className="font-medium select-none text-base transition-all duration-300 ml-6"
             style={{
               opacity: textOpacity,
@@ -144,7 +143,7 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
         >
-          <ChevronRight 
+          <ChevronRight
             className="w-5 h-5 text-white transition-all duration-300 ease-in-out"
             style={{
               opacity: slideComplete ? 0 : 1,

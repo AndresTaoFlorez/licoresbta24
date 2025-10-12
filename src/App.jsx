@@ -12,7 +12,7 @@ function App() {
   const { loading } = useAppContext();
 
   // <!-- Google tag (gtag.js) -->
-  if (import.meta.env.MODE === "production") {
+  if (import.meta.env.PROD) {
     const script = document.createElement("script");
     script.async = true;
     script.src = "https://www.googletagmanager.com/gtag/js?id=AW-17474983793";

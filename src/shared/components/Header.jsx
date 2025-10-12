@@ -1,4 +1,5 @@
 import { useAppContext } from "../../context/AppContext";
+import { Link } from "react-router";
 import { MapPin } from "lucide-react";
 
 function Header() {
@@ -26,12 +27,7 @@ function Header() {
       <div className="relative pt-16 z-0 h-full xs:mt-20 flex flex-col items-center px-4">
 
         {/* Contenedor del logo */}
-        <a
-          href="/home"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block"
-        >
+        <Link to="/home" className="block">
           <div className="animate-logo-bounce">
             <div className="relative flex flex-col items-center group animate-fade-in-accelerate">
               <img
@@ -47,7 +43,7 @@ function Header() {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
 
 

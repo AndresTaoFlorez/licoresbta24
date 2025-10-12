@@ -8,7 +8,7 @@ import { Routes, Route } from "react-router-dom";
 
 const ContentBody = () => {
 
-  const { products, setProducts, open, setLoading } = useAppContext();
+  const { products } = useAppContext();
 
   return (
     <>

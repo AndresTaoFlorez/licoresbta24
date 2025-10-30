@@ -1,12 +1,12 @@
+import { useDispatch, useSelector } from "react-redux";
 import Slider from "../../../shared/components/Slider.jsx";
 import AnimatedWrapper from "../../../shared/components/AnimatedWrapper.jsx";
-import { useAppContext } from "../../../context/AppContext.jsx";
+import { setUnlocked } from "../../../store/slices/uiSlice.js";
 import "../../../shared/styles/swipeToEnter.scss";
 
 export default function SwipeToEnter({ children, loading }) {
-  // usamos el custom hook
-  const { isUnlocked, unlockSwipe } = useAppContext()
-
+  const dispatch = useDispatch();
+  const isUnlocked = useSelector((state) => state.ui.isUnlocked);
 
   if (loading) {
     return (
@@ -17,7 +17,7 @@ export default function SwipeToEnter({ children, loading }) {
   }
 
   const handleUnlock = () => {
-    unlockSwipe();
+    dispatch(setUnlocked(true));
   };
 
   return (

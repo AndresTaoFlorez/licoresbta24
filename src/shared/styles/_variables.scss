@@ -4,3 +4,8 @@ $md: 768px; // max
 $lg: 1024px; // max
 $xl: 1280px; // max
 $w-2xl: 1536px; // > 1536px
+
+// Responsive breakpoints for mixins
+$mobile: 767px; // max-width for mobile
+$tablet: 768px; // min-width for tablet
+$desktop: 1024px; // min-width for desktop

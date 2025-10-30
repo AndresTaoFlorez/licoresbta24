@@ -1,52 +1,70 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ProductCard from "../features/products/components/ProductCard.jsx";
-import { useAppContext } from "../context/AppContext.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { ModernProductCard, ModernProductCardSkeleton } from "../presentation/design-system/components";
+import { setCategory } from "../store/slices/productsSlice.js";
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
-  const { setFilteredProducts, filteredProducts, products, loading } = useAppContext();
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.products.loading);
+  const filteredProducts = useSelector((state) => state.products.filteredItems);
 
   useEffect(() => {
-    if (loading || !products || !categoryName) return;
+    if (categoryName) {
+      dispatch(setCategory(categoryName));
+    }
+  }, [categoryName, dispatch]);
 
-    setFilteredProducts(
-      Object.values(products).filter(
-        (p) => p?.CATEGORIA?.toLowerCase() === categoryName.toLowerCase()
-      )
-    );
-  }, [loading, products, categoryName, setFilteredProducts]);
+  const handleAddToCart = (product) => {
+    console.log('Add to cart:', product);
+  };
+
+  const handleToggleFavorite = (product) => {
+    console.log('Toggle favorite:', product);
+  };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-10 text-gray-600">
-        Loading...
+      <div className="category-page">
+        <div className="category-page__grid">
+          {[...Array(8)].map((_, i) => (
+            <ModernProductCardSkeleton key={i} />
+          ))}
+        </div>
       </div>
     );
   }
 
-  if (!filteredProducts || filteredProducts.length === 0) {
+  const products = Object.values(filteredProducts);
+
+  if (!products || products.length === 0) {
     return (
-      <div className="flex justify-around items-center py-10 text-gray-500">
-        No hay productos disponibles en esta categoría.
+      <div className="category-page__empty">
+        <p className="category-page__empty-text">No hay productos disponibles en esta categoría.</p>
       </div>
     );
   }
 
   return (
-    <div
-      className="
-        grid
-        sm:w-full
-        md:w-11/12
-        grid-cols-[repeat(auto-fill,minmax(220px,1fr))] 
-        mx-auto
-        gap-4
-      "
-    >
-      {filteredProducts.map((product) => (
-        <ProductCard key={product.PRODUCTO} product={product} />
-      ))}
+    <div className="category-page">
+      <div className="category-page__grid">
+        {products.map((product, index) => {
+          let badge = null;
+          if (index % 8 === 0) badge = 'NEW';
+          if (index % 12 === 0) badge = 'SALE';
+
+          return (
+            <ModernProductCard
+              key={`${product.PRODUCTO}-${index}`}
+              product={product}
+              badge={badge}
+              onAddToCart={handleAddToCart}
+              onToggleFavorite={handleToggleFavorite}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

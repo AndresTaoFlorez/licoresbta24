@@ -1,41 +1,33 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useRef } from "react";
-import { useAppContext } from "../../../context/AppContext";
-import locations from "./locations.json"
-
-// Hook para controlar desde fuera
-export function useDeliveryLocation() {
-  const { isOpen } = useAppContext();
-
-  // Modal solo se renderiza si isOpen y isUnlocked son true
-  const Modal = () => isOpen ? <DeliveryLocationSelector /> : null;
-
-  return { Modal };
-}
+import { useDispatch } from "react-redux";
+import { setLocation, closeLocationModal } from "../../../store/slices/locationSlice.js";
+import locations from "./locations.json";
 
 const DeliveryLocationSelector = () => {
   const { handleSubmit } = useForm();
-  const { close, setLocation } = useAppContext();
+  const dispatch = useDispatch();
   const [selected, setSelected] = useState(null);
   const [search, setSearch] = useState("");
   const modalRef = useRef(null);
 
   const onSubmit = () => {
-    console.log("Lugar de entrega:", selected);
-    setLocation(selected);
-    close(); // Cerrar después de confirmar
+    if (selected) {
+      dispatch(setLocation(selected));
+      dispatch(closeLocationModal());
+    }
   };
 
   // Cerrar al hacer clic fuera del modal
   useEffect(() => {
     function handleClickOutside(event) {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        close();
+        dispatch(closeLocationModal());
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [close]);
+  }, [dispatch]);
 
   // Filtrar departamentos y ciudades
   const filteredLocations = locations.locations
@@ -54,65 +46,54 @@ const DeliveryLocationSelector = () => {
     .filter((d) => d.ciudades.length > 0);
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-[3px] flex items-center justify-center z-3">
-      {/* Card principal */}
-      <div
-        ref={modalRef}
-        className="relative w-full max-w-md rounded-2xl shadow-xl p-6 mx-4 bg-gradient-to-b from-[#33623d] to-[#141b05]"
-      >
-        {/* Botón X */}
+    <div className="delivery-location-modal">
+      <div ref={modalRef} className="delivery-location-modal__card">
         <button
-          onClick={close}
-          className="absolute top-3 right-3 bg-[#33623d] text-white rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:bg-green-700 transition"
+          onClick={() => dispatch(closeLocationModal())}
+          className="delivery-location-modal__close-btn"
         >
           ✕
         </button>
 
-        <h2 className="text-green-200 text-sm font-semibold">
+        <h2 className="delivery-location-modal__subtitle">
           CONFIRMA LUGAR DE ENTREGA
         </h2>
-        <h1 className="text-lg font-bold text-green-100 mb-4">
+        <h1 className="delivery-location-modal__title">
           Nuestros precios de envío varían según el lugar de entrega
         </h1>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Barra de búsqueda */}
+        <form onSubmit={handleSubmit(onSubmit)} className="delivery-location-modal__form">
           <input
             type="text"
             placeholder="Buscar..."
-            className="w-full border border-green-700 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 bg-[#33623d] text-white placeholder-green-200"
+            className="delivery-location-modal__search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          {/* Lista de ubicaciones */}
-          <div className="space-y-4 max-h-64 overflow-y-auto">
+          <div className="delivery-location-modal__list">
             {filteredLocations.map((dept) => (
               <div key={dept.departamento}>
-                <p className="text-green-300 font-semibold mb-2">
+                <p className="delivery-location-modal__department">
                   {dept.departamento}
                 </p>
-                {dept.ciudades.map((city) => (
-                  <div
-                    key={city}
-                    onClick={() => setSelected(`${dept.departamento} - ${city}`)}
-                    className={`px-3 py-2 rounded-lg cursor-pointer transition text-green-100 ${selected === `${dept.departamento} - ${city}`
-                      ? "bg-green-700 text-white border border-green-400"
-                      : "hover:bg-green-800 hover:text-green-200"
-                      }`}
-                  >
-                    {city}
-                  </div>
-                ))}
+                {dept.ciudades.map((city) => {
+                  const isSelected = selected === `${dept.departamento} - ${city}`;
+                  return (
+                    <div
+                      key={city}
+                      onClick={() => setSelected(`${dept.departamento} - ${city}`)}
+                      className={`delivery-location-modal__city ${isSelected ? 'delivery-location-modal__city--selected' : ''}`}
+                    >
+                      {city}
+                    </div>
+                  );
+                })}
               </div>
             ))}
           </div>
 
-          {/* Botón confirmar */}
-          <button
-            type="submit"
-            className="w-full cursor-pointer bg-[#33623d] text-white py-2 rounded-lg font-medium hover:bg-green-700 transition"
-          >
+          <button type="submit" className="delivery-location-modal__submit-btn">
             Confirmar
           </button>
         </form>

@@ -1,18 +1,29 @@
-import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect } from "react";
 
 export default function AnimatedWrapper({ isUnlocked, children }) {
+  const [shouldRender, setShouldRender] = useState(!isUnlocked);
+  const [isExiting, setIsExiting] = useState(false);
+
+  useEffect(() => {
+    if (isUnlocked && shouldRender) {
+      setIsExiting(true);
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+      }, 500); // Match the CSS animation duration
+      return () => clearTimeout(timer);
+    } else if (!isUnlocked) {
+      setShouldRender(true);
+      setIsExiting(false);
+    }
+  }, [isUnlocked, shouldRender]);
+
+  if (!shouldRender) return null;
+
   return (
-    <AnimatePresence>
-      {!isUnlocked && (
-        <motion.div
-          className="absolute inset-0 z-50"
-          initial={false}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div
+      className={`animated-wrapper ${isExiting ? 'animated-wrapper--exiting' : ''}`}
+    >
+      {children}
+    </div>
   );
 }

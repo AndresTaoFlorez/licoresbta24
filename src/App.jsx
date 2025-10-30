@@ -1,38 +1,59 @@
-import './shared/styles/App.css'
-import SwipeToEnter from './features/landing/pages/SwipeToEnter.jsx'
-import { useDeliveryLocation } from './features/location/components/DeliveryLocationSelector.jsx'
-import Header from './shared/components/Header.jsx'
-import Footer from './shared/components/Footer.jsx'
-import { useAppContext } from './context/AppContext.jsx'
-import ContentBody from './pages/ContentBody.jsx'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import './shared/styles/App.css';
+import SwipeToEnter from './features/landing/pages/SwipeToEnter.jsx';
+import { useDeliveryLocation } from './features/location/components/useDeliveryLocation.jsx';
+import BackgroundEffects from './shared/components/BackgroundEffects.jsx';
+import Header from './shared/components/Header.jsx';
+import Footer from './shared/components/Footer.jsx';
+import ContentBody from './pages/ContentBody.jsx';
+import { fetchProducts } from './store/slices/productsSlice.js';
+import { openLocationModal } from './store/slices/locationSlice.js';
+
 function App() {
-
-
+  const dispatch = useDispatch();
   const { Modal } = useDeliveryLocation();
-  const { loading } = useAppContext();
+  const loading = useSelector((state) => state.products.loading);
+  const location = useSelector((state) => state.location.current);
 
-  // <!-- Google tag (gtag.js) -->
-  if (import.meta.env.PROD) {
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://www.googletagmanager.com/gtag/js?id=AW-17474983793";
-    document.head.appendChild(script);
+  // Fetch products on mount
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { window.dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'AW-17474983793');
-  }
+  // Auto-open location modal if default location is set
+  useEffect(() => {
+    if (location === 'Bogotá') {
+      dispatch(openLocationModal());
+    }
+  }, [dispatch, location]);
 
+  // Google Analytics
+  useEffect(() => {
+    if (import.meta.env.PROD) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=AW-17474983793";
+      document.head.appendChild(script);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'AW-17474983793');
+    }
+  }, []);
 
   return (
     <SwipeToEnter loading={loading}>
-      <Modal />
-      <Header />
-      <ContentBody />
-      <Footer />
+      <BackgroundEffects />
+      <div className="app-content">
+        <Modal />
+        <Header />
+        <ContentBody />
+        <Footer />
+      </div>
     </SwipeToEnter>
-  )
+  );
 }
 
-export default App
+export default App;

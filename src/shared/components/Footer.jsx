@@ -1,5 +1,5 @@
 import { Phone, Instagram } from 'lucide-react';
-import { handleContactClick } from '../../shared/components/WhatsAppButton.jsx';
+import { handleContactClick } from './whatsappUtils.js';
 import { FaTiktok } from 'react-icons/fa';
 import '../styles/footer.scss';
 

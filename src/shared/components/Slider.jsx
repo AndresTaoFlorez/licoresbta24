@@ -1,6 +1,5 @@
 import { useState, useRef, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
-import { setLocalStorage } from "../../context/localStorage";
 
 export default function Slider({ onConfirm, text = "Desliza para confirmar →" }) {
   const [slideComplete, setSlideComplete] = useState(false);
@@ -58,9 +57,6 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
     if (dragX > maxDrag * 0.75) {
       // COMPLETADO
       setSlideComplete(true);
-      setLocalStorage({
-        swipeToEnterUnlocked: true,
-      });
       setDragX(maxDrag);
 
       // Secuencia de animaciones

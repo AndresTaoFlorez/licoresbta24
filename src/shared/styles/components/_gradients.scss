@@ -1,0 +1,167 @@
+// ============================================
+// GRADIENT BACKGROUNDS & EFFECTS
+// ============================================
+
+@use '../colors' as *;
+@use '../design-tokens' as *;
+
+// Hero gradient background
+.gradient-hero {
+  background: linear-gradient(
+    180deg,
+    $brand-primary-800 0%,
+    $brand-primary-900 50%,
+    $black 100%
+  );
+  position: relative;
+  overflow: hidden;
+
+  // Subtle pattern overlay
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(145, 213, 160, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(51, 98, 61, 0.2) 0%, transparent 50%);
+    opacity: 0.5;
+  }
+}
+
+// Section gradient
+.gradient-section {
+  background: linear-gradient(
+    180deg,
+    rgba(51, 98, 61, 0.03) 0%,
+    transparent 50%,
+    rgba(145, 213, 160, 0.03) 100%
+  );
+}
+
+// Card gradient overlay
+.gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 70%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  opacity: 0;
+  transition: opacity $duration-base $easing-out;
+  pointer-events: none;
+
+  &--visible {
+    opacity: 1;
+  }
+}
+
+// Gradient text
+.gradient-text {
+  background: linear-gradient(135deg, $brand-primary-500 0%, $brand-accent-600 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  &--light {
+    background: linear-gradient(135deg, $brand-accent-300 0%, $brand-accent-500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+// Animated gradient background
+.gradient-animated {
+  background: linear-gradient(
+    -45deg,
+    $brand-primary-700,
+    $brand-primary-800,
+    $brand-primary-900,
+    $brand-dark-900
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+// Glow effect
+.glow-effect {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(
+      135deg,
+      $brand-accent-400,
+      $brand-accent-600,
+      $brand-primary-500
+    );
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity $duration-base $easing-out;
+    z-index: -1;
+    filter: blur(20px);
+  }
+
+  &:hover::before {
+    opacity: 0.6;
+  }
+}
+
+// Radial gradient backdrop
+.radial-gradient-bg {
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(51, 98, 61, 0.15) 0%,
+    transparent 70%
+  );
+}
+
+// Mesh gradient (modern effect)
+.mesh-gradient {
+  background:
+    radial-gradient(at 27% 37%, rgba(51, 98, 61, 0.15) 0px, transparent 50%),
+    radial-gradient(at 97% 21%, rgba(145, 213, 160, 0.15) 0px, transparent 50%),
+    radial-gradient(at 52% 99%, rgba(51, 98, 61, 0.2) 0px, transparent 50%),
+    radial-gradient(at 10% 29%, rgba(145, 213, 160, 0.1) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, rgba(51, 98, 61, 0.15) 0px, transparent 50%),
+    radial-gradient(at 33% 50%, rgba(145, 213, 160, 0.1) 0px, transparent 50%),
+    radial-gradient(at 79% 53%, rgba(51, 98, 61, 0.1) 0px, transparent 50%);
+}
+
+// Button gradients
+.btn-gradient {
+  background: linear-gradient(135deg, $brand-primary-500 0%, $brand-primary-600 100%);
+  border: none;
+  color: $white;
+  transition: all $duration-base $easing-out;
+
+  &:hover {
+    background: linear-gradient(135deg, $brand-primary-600 0%, $brand-primary-700 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(51, 98, 61, 0.3);
+  }
+
+  &--accent {
+    background: linear-gradient(135deg, $brand-accent-500 0%, $brand-accent-600 100%);
+
+    &:hover {
+      background: linear-gradient(135deg, $brand-accent-600 0%, $brand-accent-700 100%);
+    }
+  }
+}

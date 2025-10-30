@@ -1,0 +1,155 @@
+@use '../colors' as *;
+@use '../mixins' as *;
+@use '../design-tokens' as *;
+@use '../variables' as *;
+
+.delivery-location-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($black, 0.5);
+  backdrop-filter: blur(3px);
+  @include flex-center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+
+  &__card {
+    position: relative;
+    width: 100%;
+    max-width: 28rem;
+    border-radius: $radius-2xl;
+    box-shadow: $shadow-xl;
+    padding: $space-6;
+    margin: 0 $space-4;
+    background: linear-gradient(to bottom, #33623d, #141b05);
+    animation: slideUp 0.3s ease-out;
+  }
+
+  &__close-btn {
+    position: absolute;
+    top: $space-3;
+    right: $space-3;
+    background-color: #33623d;
+    color: $white;
+    border-radius: 9999px;
+    width: 2rem;
+    height: 2rem;
+    @include flex-center;
+    box-shadow: $shadow-md;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $green-700;
+    }
+  }
+
+  &__subtitle {
+    color: $green-200;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $green-100;
+    margin-bottom: $space-4;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+  }
+
+  &__search {
+    width: 100%;
+    border: 1px solid $green-700;
+    border-radius: $radius-lg;
+    padding: $space-3;
+    background-color: #33623d;
+    color: $white;
+
+    &::placeholder {
+      color: $green-200;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px $green-500;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+    max-height: 16rem;
+    overflow-y: auto;
+  }
+
+  &__department {
+    color: $green-300;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $space-2;
+  }
+
+  &__city {
+    padding: $space-3;
+    border-radius: $radius-lg;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: $green-100;
+
+    &:hover {
+      background-color: $green-800;
+      color: $green-200;
+    }
+
+    &--selected {
+      background-color: $green-700;
+      color: $white;
+      border: 1px solid $green-400;
+    }
+  }
+
+  &__submit-btn {
+    width: 100%;
+    cursor: pointer;
+    background-color: #33623d;
+    color: $white;
+    padding: $space-2 0;
+    border-radius: $radius-lg;
+    font-weight: $font-weight-medium;
+    border: none;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $green-700;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

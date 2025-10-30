@@ -1,13 +1,15 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { createRoot } from 'react-dom/client'
-import { LocationProvider } from './context/AppContext.jsx'
-import App from './App.jsx'
-import './shared/styles/index.css'
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { store } from './store/store.js';
+import App from './App.jsx';
+import './shared/styles/index.css';
+import './shared/styles/main.scss';
 
 createRoot(document.getElementById('root')).render(
-  <LocationProvider>
+  <Provider store={store}>
     <Router>
       <App />
     </Router>
-  </LocationProvider>
+  </Provider>
 )

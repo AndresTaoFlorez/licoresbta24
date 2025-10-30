@@ -1,7 +1,5 @@
-/**
- * BackgroundEffects - Global background component with animated spheres
- * This component sits behind all content with proper z-index management
- */
+import "../styles/components/_background-effects.scss";
+
 const BackgroundEffects = () => {
   return (
     <div className="background-effects">
@@ -15,6 +13,8 @@ const BackgroundEffects = () => {
         <div className="sphere sphere--3"></div>
         <div className="sphere sphere--4"></div>
         <div className="sphere sphere--5"></div>
+        <div className="sphere sphere--6"></div>
+        <div className="sphere sphere--7"></div>
       </div>
     </div>
   );

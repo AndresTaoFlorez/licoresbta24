@@ -33,12 +33,12 @@
   &__title {
     font-size: $font-size-3xl;
     font-weight: $font-weight-bold;
-    color: $brand-primary-500;
+    // color: $brand-primary-200;
     margin: 0 0 $space-3;
     letter-spacing: $letter-spacing-tight;
 
     // Gradient text effect
-    background: linear-gradient(135deg, $brand-primary-500 0%, $brand-accent-600 100%);
+    background: linear-gradient(135deg, $brand-accent-500 0%, $brand-primary-300 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -46,7 +46,7 @@
 
   &__subtitle {
     font-size: $font-size-md;
-    color: $gray-600;
+    color: $gray-300;
     margin: 0;
     font-weight: $font-weight-semibold;
   }
@@ -72,20 +72,16 @@
     }
 
     // Fade effect on edges
-    mask-image: linear-gradient(
-      to right,
+    mask-image: linear-gradient(to right,
       transparent 0px,
       black 40px,
       black calc(100% - 40px),
-      transparent 100%
-    );
-    -webkit-mask-image: linear-gradient(
-      to right,
+      transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
       transparent 0px,
       black 40px,
       black calc(100% - 40px),
-      transparent 100%
-    );
+      transparent 100%);
   }
 
   &__list {
@@ -123,8 +119,10 @@
     &:hover {
       background: rgba(145, 213, 160, 0.1);
       border-color: $brand-accent-500;
+      color: $green-100;
       transform: translateY(-2px) scale(1.05);
       box-shadow: 0 6px 16px rgba(51, 98, 61, 0.15);
+
     }
 
     &:active {

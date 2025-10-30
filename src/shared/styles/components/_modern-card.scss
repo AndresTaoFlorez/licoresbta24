@@ -11,7 +11,6 @@
   flex-direction: column;
   transition: all $duration-base $easing-out;
   cursor: pointer;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 
   // Hover effect - lift card
   &:hover {
@@ -62,12 +61,10 @@
   &__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(51, 98, 61, 0.05) 50%,
-      rgba(51, 98, 61, 0.15) 100%
-    );
+    background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(51, 98, 61, 0.05) 50%,
+        rgba(51, 98, 61, 0.15) 100%);
     opacity: 0;
     transition: opacity $duration-base $easing-out;
     pointer-events: none;
@@ -160,7 +157,8 @@
   &__title {
     font-size: $font-size-sm;
     font-weight: 600;
-    color: #1f2937;
+    color: $brand-dark-50;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.3;
     margin: 0;
     width: 100%;
@@ -199,7 +197,7 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     font-size: $font-size-lg;
     font-weight: 700;
-    color: #1f3725;
+    color: $brand-dark-100;
     line-height: 1;
     letter-spacing: -0.01em;
     font-variant-numeric: tabular-nums;
@@ -217,24 +215,20 @@
 // Loading skeleton
 .modern-product-card--skeleton {
   .modern-product-card__image-container {
-    background: linear-gradient(
-      90deg,
-      #f3f4f6 0%,
-      #e5e7eb 50%,
-      #f3f4f6 100%
-    );
+    background: linear-gradient(90deg,
+        #f3f4f6 0%,
+        #e5e7eb 50%,
+        #f3f4f6 100%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }
 
   .modern-product-card__content {
-    > * {
-      background: linear-gradient(
-        90deg,
-        #f3f4f6 0%,
-        #e5e7eb 50%,
-        #f3f4f6 100%
-      );
+    >* {
+      background: linear-gradient(90deg,
+          #f3f4f6 0%,
+          #e5e7eb 50%,
+          #f3f4f6 100%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
       border-radius: $radius-base;
@@ -253,6 +247,7 @@
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }

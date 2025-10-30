@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "../../../shared/components/Slider.jsx";
 import AnimatedWrapper from "../../../shared/components/AnimatedWrapper.jsx";
+import BackgroundEffects from "../../../shared/components/BackgroundEffects.jsx";
 import { setUnlocked } from "../../../store/slices/uiSlice.js";
 import "../../../shared/styles/swipeToEnter.scss";
 
@@ -21,20 +22,15 @@ export default function SwipeToEnter({ children, loading }) {
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen w-full bg-[#2b5e2c]">
+    <div className="relative flex flex-col min-h-screen w-full">
+      {/* BackgroundEffects visible en ambas fases */}
+      <BackgroundEffects />
+
       <AnimatedWrapper isUnlocked={isUnlocked}>
         {/*// swiper*/}
         <div className="SwipeToEnter flex flex-col h-screen ">
-          <div className="SwipeToEnter__background">
-            <div className="sphere sphere--white"></div>
-            <div className="sphere sphere--green-light"></div>
-            <div className="sphere sphere--emerald"></div>
-            <div className="sphere sphere--white-dim"></div>
-            <div className="sphere sphere--center"></div>
-          </div>
-
           <div className="SwipeToEnter__content px-4 [490px]:px-6 sm:px-8">
-            <div className="bg-black/20 backdrop-blur-lg rounded-3xl p-4 [490px]:p-6 sm:p-8 w-full max-w-md border border-emerald-400/30">
+            <div className="bg-black/20 backdrop-blur-lg rounded-3xl p-4 [490px]:p-6 sm:p-8 w-full max-w-md border border-emerald-400/30 shadow-2xl">
               <div className="text-center mb-4 [490px]:mb-6 sm:mb-8">
                 <div className="logo w-full max-w-[280px] [490px]:max-w-[320px] sm:w-80 h-auto mx-auto bg-gradient-to-r rounded-full flex items-center justify-center mb-14 mt-16 [490px]:mb-12 sm:mb-14 [490px]:mt-8 sm:mt-10">
                   <img
@@ -67,8 +63,8 @@ export default function SwipeToEnter({ children, loading }) {
           </div>
         </div>
       </AnimatedWrapper>
-      {/* Content */}
-      {children}
+      {/* Content - solo se renderiza cuando está desbloqueado */}
+      {isUnlocked && children}
     </div>
   );
 }

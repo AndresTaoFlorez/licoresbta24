@@ -23,74 +23,7 @@ $emerald-200: #a7f3d0;
     height: 100%;
     overflow: hidden;
     z-index: -1;
-
-
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -2;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #3779452f 0%, #152e1b22 100%);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      filter: blur(5px);
-    }
-
-    .sphere {
-      position: absolute;
-      z-index: -3;
-      border-radius: 50%;
-      opacity: 0.1;
-      animation: float 6s ease-in-out infinite;
-
-      &--white {
-        width: 200px;
-        height: 200px;
-        background: white;
-        top: 10%;
-        left: 20%;
-        animation-delay: 0s;
-      }
-
-      &--green-light {
-        width: 150px;
-        height: 150px;
-        background: #10b981;
-        top: 60%;
-        right: 10%;
-        animation-delay: 2s;
-      }
-
-      &--emerald {
-        width: 100px;
-        height: 100px;
-        background: #059669;
-        bottom: 20%;
-        left: 10%;
-        animation-delay: 4s;
-      }
-
-      &--white-dim {
-        width: 120px;
-        height: 120px;
-        background: rgba(255, 255, 255, 0.5);
-        top: 30%;
-        right: 30%;
-        animation-delay: 1s;
-      }
-
-      &--center {
-        width: 300px;
-        height: 300px;
-        background: rgba(16, 185, 129, 0.2);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        animation-delay: 3s;
-      }
-    }
+    display: none; // Ocultamos porque ahora usamos BackgroundEffects
   }
 
   &__content {
@@ -148,42 +81,4 @@ $emerald-200: #a7f3d0;
 
 
 
-@media (max-width: 500px) {
-  .SwipeToEnter {
-    &__content {
-      padding-left: 1rem; // px-4
-      padding-right: 1rem;
-
-      .card,
-      >div {
-        width: 100%;
-        margin: 0 auto;
-        padding: 1rem;
-        /* p-4 */
-        border-radius: 1.5rem;
-
-        /* Evitar desbordamiento de texto */
-        white-space: normal;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        text-align: center;
-      }
-
-      h1,
-      p {
-        white-space: normal;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        text-align: center;
-      }
-
-      .logo {
-        max-width: 240px;
-        /* un poco más pequeño en móvil */
-        margin: 1rem auto 2rem auto;
-      }
-    }
-  }
-}
+// Estilos removidos para permitir que Tailwind controle los espaciados

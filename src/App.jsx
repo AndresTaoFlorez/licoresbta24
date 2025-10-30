@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import './shared/styles/App.css';
 import SwipeToEnter from './features/landing/pages/SwipeToEnter.jsx';
 import { useDeliveryLocation } from './features/location/components/useDeliveryLocation.jsx';
-import BackgroundEffects from './shared/components/BackgroundEffects.jsx';
 import Header from './shared/components/Header.jsx';
 import Footer from './shared/components/Footer.jsx';
 import ContentBody from './pages/ContentBody.jsx';
@@ -45,7 +44,6 @@ function App() {
 
   return (
     <SwipeToEnter loading={loading}>
-      <BackgroundEffects />
       <div className="app-content">
         <Modal />
         <Header />

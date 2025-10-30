@@ -104,7 +104,7 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
         }}
       >
         {/* Text */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <span
             className="font-medium select-none text-base transition-all duration-300 ml-6"
             style={{
@@ -127,6 +127,7 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
             transition-all ease-out duration-500 touch-none
             ${isDragging ? 'cursor-grabbing shadow-[0_6px_16px_rgba(16,185,129,0.4)]' : 'cursor-grab'}
             flex-shrink-0
+            z-1
           `}
           style={{
             width: isDisappearing ? '20px' : `${BUTTON_SIZE}px`,

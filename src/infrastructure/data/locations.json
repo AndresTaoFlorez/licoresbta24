@@ -1,0 +1,29 @@
+{
+  "locations": [
+    {
+      "departamento": "Bogotá D.C.",
+      "ciudades": [
+        "Bosa",
+        "Fontibón",
+        "Chapinero",
+        "Suba",
+        "Usaquén",
+        "Kennedy",
+        "Engativá",
+        "Teusaquillo"
+      ]
+    },
+    {
+      "departamento": "Cundinamarca",
+      "ciudades": [
+        "Soacha"
+      ]
+    },
+    {
+      "departamento": "Otros",
+      "ciudades": [
+        "Otros"
+      ]
+    }
+  ]
+}

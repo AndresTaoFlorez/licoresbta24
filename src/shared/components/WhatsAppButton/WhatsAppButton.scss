@@ -1,0 +1,88 @@
+@use '../../styles/colors' as *;
+@use '../../styles/mixins' as *;
+
+.whatsapp-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  @include gradient-green;
+  color: $white;
+  font-weight: 700;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  @include shadow-brand-lg;
+  @include transition-all;
+  z-index: 1001;
+  border: none;
+
+  // Mobile: circular button, icon only
+  @media (max-width: 963px) {
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0;
+    gap: 0;
+  }
+
+  // Desktop: pill-shaped button, icon + text
+  @media (min-width: 964px) {
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+  }
+
+  &:hover {
+    background: linear-gradient(to bottom right, $green-600, $green-700);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &__icon {
+    @include transition-transform;
+    flex-shrink: 0;
+
+    // Mobile: icon size for circular button
+    @media (max-width: 963px) {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    // Desktop: icon size for pill button
+    @media (min-width: 964px) {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    .whatsapp-button:hover & {
+      transform: rotate(12deg);
+    }
+  }
+
+  &__text {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+
+    // Mobile: hide text, show only icon
+    @media (max-width: 963px) {
+      display: none;
+    }
+
+    // Desktop: show text alongside icon
+    @media (min-width: 964px) {
+      display: block;
+    }
+  }
+
+  &--hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0);
+  }
+}

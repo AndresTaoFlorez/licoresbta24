@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './shared/styles/App.css';
-import SwipeToEnter from './features/landing/pages/SwipeToEnter.jsx';
-import { useDeliveryLocation } from './features/location/components/useDeliveryLocation.jsx';
-import Header from './shared/components/Header.jsx';
-import Footer from './shared/components/Footer.jsx';
-import ContentBody from './pages/ContentBody.jsx';
-import { fetchProducts } from './store/slices/productsSlice.js';
-import { openLocationModal } from './store/slices/locationSlice.js';
+import SwipeToEnter from './presentation/pages/SwipeToEnter/SwipeToEnter.jsx';
+import { useDeliveryLocation } from './presentation/components/features/location/DeliveryLocationSelector/useDeliveryLocation.jsx';
+import { Header, Footer } from './presentation/components/layout';
+import Home from './presentation/pages/Home/Home.jsx';
+import { fetchProducts } from './infrastructure/state/slices/productsSlice.js';
+import { openLocationModal } from './infrastructure/state/slices/locationSlice.js';
+import { WhatsAppButton } from './shared/components';
 
 function App() {
   const dispatch = useDispatch();
@@ -46,8 +46,9 @@ function App() {
     <SwipeToEnter loading={loading}>
       <div className="app-content">
         <Modal />
+        <WhatsAppButton />
         <Header />
-        <ContentBody />
+        <Home />
         <Footer />
       </div>
     </SwipeToEnter>

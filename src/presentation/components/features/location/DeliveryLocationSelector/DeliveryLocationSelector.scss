@@ -1,0 +1,367 @@
+@use '../../../../../shared/styles/colors' as *;
+@use '../../../../../shared/styles/mixins' as *;
+@use '../../../../../shared/styles/design-tokens' as *;
+@use '../../../../../shared/styles/variables' as *;
+
+.delivery-location-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($black, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+
+  // Mobile: centered with backdrop
+  @media (max-width: 963px) {
+    @include flex-center;
+    padding: $space-4;
+  }
+
+  // Desktop: centered modal
+  @media (min-width: 964px) {
+    @include flex-center;
+  }
+
+  &__card {
+    position: relative;
+    border-radius: $radius-2xl;
+    box-shadow: $shadow-xl;
+    padding: $space-6;
+    background: linear-gradient(to bottom, #33623d, #141b05);
+    animation: slideIn 0.3s ease-out;
+    pointer-events: auto;
+
+    // Mobile: centered modal with better sizing
+    @media (max-width: 963px) {
+      width: 100%;
+      max-width: min(34rem, 90vw);
+      max-height: 85vh;
+      border-radius: $radius-xl;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      padding: $space-6;
+    }
+
+    // Small phones optimization
+    @media (max-width: 480px) {
+      max-width: min(34rem, 95vw);
+      max-height: 90vh;
+      padding: $space-5;
+    }
+
+    // Tablet and above: centered with max-width
+    @media (min-width: 964px) {
+      width: 100%;
+      max-width: 34rem;
+      margin: 0 $space-4;
+    }
+
+    // Desktop: larger
+    @media (min-width: 1024px) {
+      max-width: 34rem;
+      padding: $space-8;
+    }
+  }
+
+  &__close-btn {
+    position: absolute;
+    top: $space-3;
+    right: $space-3;
+    background-color: rgba($black, 0.3);
+    color: $white;
+    border-radius: 9999px;
+    width: 2rem;
+    height: 2rem;
+    @include flex-center;
+    box-shadow: $shadow-md;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    font-size: $font-size-lg;
+
+    &:hover {
+      background-color: rgba($black, 0.5);
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    @media (max-width: 963px) {
+      width: 2.25rem;
+      height: 2.25rem;
+      top: $space-2;
+      right: $space-2;
+      font-size: $font-size-xl;
+    }
+
+    @media (max-width: 480px) {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+
+  &__subtitle {
+    color: $green-200;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $space-2;
+    flex-shrink: 0;
+    padding-right: 3rem; // Space for close button
+
+    @media (max-width: 963px) {
+      font-size: $font-size-sm;
+      margin-bottom: $space-2;
+      padding-right: 3.5rem; // More space for larger mobile button
+    }
+
+    @media (max-width: 480px) {
+      padding-right: 4rem; // Even more space for larger button on small phones
+    }
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $green-100;
+    margin-bottom: $space-4;
+    line-height: 1.4;
+    flex-shrink: 0;
+    padding-right: 3rem; // Space for close button
+
+    @media (max-width: 963px) {
+      font-size: $font-size-base;
+      line-height: 1.4;
+      margin-bottom: $space-4;
+      padding-right: 3.5rem; // More space for larger mobile button
+    }
+
+    @media (max-width: 480px) {
+      padding-right: 4rem; // Even more space for larger button on small phones
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+    flex: 1;
+    min-height: 0;
+
+    @media (max-width: 963px) {
+      gap: $space-4;
+    }
+  }
+
+  &__search {
+    width: 100%;
+    border: 1px solid $green-700;
+    border-radius: $radius-lg;
+    padding: $space-3;
+    background-color: rgba($green-900, 0.5);
+    color: $white;
+    font-size: $font-size-base;
+    flex-shrink: 0;
+
+    &::placeholder {
+      color: $green-300;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px $green-500;
+      background-color: rgba($green-900, 0.7);
+    }
+
+    @media (max-width: 963px) {
+      padding: $space-3;
+      font-size: $font-size-base;
+    }
+
+    @media (max-width: 480px) {
+      padding: $space-3;
+      font-size: $font-size-base;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+    max-height: 16rem;
+    overflow-y: auto;
+    padding-right: $space-2;
+    flex: 1;
+    min-height: 0;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba($green-900, 0.3);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $green-600;
+      border-radius: 3px;
+
+      &:hover {
+        background: $green-500;
+      }
+    }
+
+    @media (max-width: 963px) {
+      max-height: none;
+      gap: $space-3;
+      padding-right: $space-2;
+    }
+
+    @media (max-width: 480px) {
+      gap: $space-3;
+    }
+  }
+
+  &__department {
+    color: $green-300;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $space-2;
+    font-size: $font-size-base;
+    position: sticky;
+    top: 0;
+    background: linear-gradient(to bottom, #33623d, rgba(#33623d, 0.95));
+    padding: $space-2;
+    z-index: 1;
+    border-radius: $radius-lg;
+
+    @media (max-width: 963px) {
+      font-size: $font-size-base;
+      margin-bottom: $space-2;
+      padding: $space-2;
+    }
+
+    @media (max-width: 480px) {
+      font-size: $font-size-base;
+    }
+  }
+
+  &__city {
+    padding: $space-3;
+    border-radius: $radius-lg;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: $green-100;
+    font-size: $font-size-base;
+
+    &:hover {
+      background-color: rgba($green-800, 0.5);
+      color: $green-200;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &--selected {
+      background-color: $green-700;
+      color: $white;
+      border: 1.5px solid $green-400;
+      font-weight: $font-weight-semibold;
+    }
+
+    @media (max-width: 963px) {
+      padding: $space-3;
+      font-size: $font-size-base;
+    }
+
+    @media (max-width: 480px) {
+      padding: $space-3;
+      font-size: $font-size-base;
+      border-radius: $radius-lg;
+    }
+  }
+
+  &__submit-btn {
+    width: 100%;
+    cursor: pointer;
+    background: linear-gradient(135deg, $green-600, $green-700);
+    color: $white;
+    padding: $space-3 0;
+    border-radius: $radius-lg;
+    font-weight: $font-weight-semibold;
+    border: none;
+    transition: all 0.3s ease;
+    font-size: $font-size-base;
+    box-shadow: 0 4px 12px rgba($green-900, 0.3);
+    flex-shrink: 0;
+
+    &:hover {
+      background: linear-gradient(135deg, $green-500, $green-600);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba($green-900, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    @media (max-width: 963px) {
+      padding: $space-3 0;
+      font-size: $font-size-base;
+    }
+
+    @media (max-width: 480px) {
+      padding: $space-3 0;
+      font-size: $font-size-base;
+      border-radius: $radius-lg;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+// Mobile specific: slide up from bottom
+@media (max-width: 963px) {
+  @keyframes slideIn {
+    from {
+      transform: translateY(30px) scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+}

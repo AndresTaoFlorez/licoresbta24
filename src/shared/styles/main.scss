@@ -5,21 +5,10 @@
 @use './mixins';
 @use './animations';
 
-// Component Styles
-@use './components/background-effects';
-@use './components/header';
+// Component Styles - Now imported directly by components
+// Component styles moved to their respective component folders
 @use './components/content-body';
-@use './components/categories';
-@use './components/category-page';
-@use './components/product-card';
-@use './components/product-list';
-@use './components/whatsapp-button';
-@use './components/delivery-location';
-@use './footer';
-@use './swipeToEnter';
 
 // Modern Design System
-@use './components/modern-card';
-@use './components/modern-categories';
 @use './components/glassmorphism';
 @use './components/gradients';

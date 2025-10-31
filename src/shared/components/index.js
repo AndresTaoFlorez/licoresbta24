@@ -8,3 +8,4 @@ export { default as ModernCategories } from './ModernCategories/ModernCategories
 export { default as Slider } from './Slider/Slider.jsx';
 export { default as WhatsAppButton } from './WhatsAppButton/WhatsAppButton.jsx';
 export { default as AnimatedWrapper } from './AnimatedWrapper/AnimatedWrapper.jsx';
+export { default as Swiper } from './Swiper/Swiper.jsx';

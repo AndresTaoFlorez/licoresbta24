@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Slider, AnimatedWrapper } from "../../../shared/components";
+import { Swiper } from "../../../shared/components";
 import { BackgroundEffects } from "../../components/layout";
 import { setUnlocked } from "../../../infrastructure/state/slices/uiSlice.js";
 import "./SwipeToEnter.scss";
@@ -7,6 +8,17 @@ import "./SwipeToEnter.scss";
 export default function SwipeToEnter({ children, loading }) {
   const dispatch = useDispatch();
   const isUnlocked = useSelector((state) => state.ui.isUnlocked);
+  const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    if (isUnlocked) {
+      // Esperar a que el Swiper termine su animación (600ms) + un pequeño delay
+      const timer = setTimeout(() => {
+        setShowContent(true);
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [isUnlocked]);
 
   if (loading) {
     return (
@@ -25,43 +37,14 @@ export default function SwipeToEnter({ children, loading }) {
       {/* BackgroundEffects visible en ambas fases */}
       <BackgroundEffects />
 
-      <AnimatedWrapper isUnlocked={isUnlocked}>
-        {/*// swiper*/}
-        <div className="SwipeToEnter">
-          <div className="SwipeToEnter__content">
-            <div className="card">
-              <div className="card__header">
-                <div className="logo">
-                  <img
-                    src="/licoresbta_logo.svg"
-                    alt="Licores Bogotá 24"
-                  />
-                </div>
+      <Swiper isUnlocked={isUnlocked} onUnlock={handleUnlock} />
 
-                <h1>Soy mayor de 18 años</h1>
-                <p>
-                  Desliza si eres mayor de edad. Al ingresar autorizas el
-                  tratamiento de datos personales y los términos y condiciones.
-                </p>
-              </div>
-
-              <div className="card__slider">
-                <Slider onConfirm={handleUnlock} />
-              </div>
-
-              <div className="card__warning">
-                <p>
-                  ⚠️ Este sitio contiene información sobre bebidas alcohólicas. Solo
-                  para mayores de 18 años. El consumo excesivo de alcohol es
-                  perjudicial para la salud.
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* Content - se muestra con fade in después que el Swiper desaparezca */}
+      {showContent && (
+        <div className="content-wrapper content-wrapper--fade-in">
+          {children}
         </div>
-      </AnimatedWrapper>
-      {/* Content - solo se renderiza cuando está desbloqueado */}
-      {isUnlocked && children}
+      )}
     </div>
   );
 }

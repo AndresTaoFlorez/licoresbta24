@@ -1,0 +1,92 @@
+@use '../../styles/colors' as *;
+@use '../../styles/mixins' as *;
+
+.scroll-top-button {
+  position: fixed;
+  right: 2rem;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  color: $white;
+  font-weight: 700;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  @include shadow-brand-lg;
+  @include transition-all;
+  z-index: 1001;
+  border: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0);
+
+  // Mobile: positioned above WhatsApp button
+  @media (max-width: 963px) {
+    bottom: 7rem; // WhatsApp is at 2rem, this gives ~5rem space
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0;
+    gap: 0;
+  }
+
+  // Desktop: positioned above WhatsApp button
+  @media (min-width: 964px) {
+    bottom: 7.5rem; // WhatsApp is at 2rem
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+  }
+
+  &--visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #334155, #475569);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &__icon {
+    @include transition-transform;
+    flex-shrink: 0;
+
+    // Mobile: icon size for circular button
+    @media (max-width: 963px) {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    // Desktop: icon size for pill button
+    @media (min-width: 964px) {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    .scroll-top-button:hover & {
+      transform: translateY(-3px);
+    }
+  }
+
+  &__text {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+
+    // Mobile: hide text, show only icon
+    @media (max-width: 963px) {
+      display: none;
+    }
+
+    // Desktop: show text alongside icon
+    @media (min-width: 964px) {
+      display: block;
+    }
+  }
+}

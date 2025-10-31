@@ -7,7 +7,7 @@ import { Header, Footer } from './presentation/components/layout';
 import Home from './presentation/pages/Home/Home.jsx';
 import { fetchProducts } from './infrastructure/state/slices/productsSlice.js';
 import { openLocationModal } from './infrastructure/state/slices/locationSlice.js';
-import { WhatsAppButton } from './shared/components';
+import { WhatsAppButton, ScrollToTopButton } from './shared/components';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +47,7 @@ function App() {
       <div className="app-content">
         <Modal />
         <WhatsAppButton />
+        <ScrollToTopButton />
         <Header />
         <Home />
         <Footer />

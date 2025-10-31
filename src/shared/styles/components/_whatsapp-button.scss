@@ -12,11 +12,12 @@
   border-radius: 9999px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   cursor: pointer;
   @include shadow-brand-lg;
   @include transition-all;
-  z-index: 50;
+  z-index: 1001;
   border: none;
 
   &:hover {
@@ -43,9 +44,39 @@
     font-size: 1rem;
     font-weight: 800;
     letter-spacing: 0.025em;
+  }
 
-    @media (max-width: 431px) {
-      display: none;
+  // Responsive: botón redondo en esquina superior derecha para pantallas pequeñas
+  @media (max-width: 768px) {
+    top: 1rem !important;
+    right: 1rem !important;
+    bottom: auto !important;
+    width: 56px !important;
+    height: 56px !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    background: linear-gradient(to bottom right, #10b981, #059669) !important;
+
+    &__icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    &__text {
+      display: none !important;
+    }
+  }
+
+  // Para pantallas muy pequeñas
+  @media (max-width: 480px) {
+    top: 0.75rem !important;
+    right: 0.75rem !important;
+    width: 48px !important;
+    height: 48px !important;
+
+    &__icon {
+      width: 1.25rem !important;
+      height: 1.25rem !important;
     }
   }
 }

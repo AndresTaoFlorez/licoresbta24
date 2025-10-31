@@ -231,7 +231,7 @@
   @include card;
   cursor: pointer;
 
-  &:hover {
+&:hover {
     @include shadow-brand;
     transform: translateY(-4px);
   }
@@ -246,7 +246,14 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+// BORDER
+@mixin green-border {
+  border: 2px solid;
+  border-color: #00d4924d;
 }

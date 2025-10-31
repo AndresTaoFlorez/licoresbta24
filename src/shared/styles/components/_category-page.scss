@@ -55,16 +55,25 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
-    padding: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
     max-width: 1400px;
     margin: 0 auto;
 
     @media (min-width: 768px) {
-      padding: 1.5rem 2rem;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      padding-left: max(2rem, env(safe-area-inset-left));
+      padding-right: max(2rem, env(safe-area-inset-right));
     }
 
     @media (min-width: 1024px) {
-      padding: 2rem 3rem;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      padding-left: max(3rem, env(safe-area-inset-left));
+      padding-right: max(3rem, env(safe-area-inset-right));
     }
   }
 }

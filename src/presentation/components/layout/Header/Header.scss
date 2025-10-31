@@ -16,14 +16,6 @@
     padding: $space-4 0;
   }
 
-  // Animated floating spheres background
-  &__spheres {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-
   // Main content
   &__content {
     position: relative;
@@ -43,6 +35,7 @@
     width: 100%;
     @include flex-center;
     overflow: visible; // Prevent clipping
+    text-decoration: none; // Remove underline from link
   }
 
   &__logo-wrapper {
@@ -120,6 +113,7 @@
     width: 100%;
     overflow: visible; // Prevent clipping
     animation: taglineFadeIn 1.5s ease-out 0.4s backwards;
+    text-decoration: none; // Ensure no underline
 
     p {
       @include text-base;
@@ -139,6 +133,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      text-decoration: none; // Explicitly remove any underline
       margin: 0;
       padding: $space-2 0; // Add vertical padding for breathing room
 

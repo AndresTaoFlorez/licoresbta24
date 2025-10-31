@@ -8,6 +8,7 @@
 // Component Styles - Now imported directly by components
 // Component styles moved to their respective component folders
 @use './components/content-body';
+@use './components/product-grid'; // Shared grid styles to prevent FOUC
 
 // Modern Design System
 @use './components/glassmorphism';

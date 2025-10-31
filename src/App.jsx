@@ -1,13 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './shared/styles/App.css';
-import SwipeToEnter from './presentation/pages/SwipeToEnter/SwipeToEnter.jsx';
+
+// Lazy load heavy components
+const SwipeToEnter = lazy(() => import('./presentation/pages/SwipeToEnter/SwipeToEnter.jsx'));
+const Home = lazy(() => import('./presentation/pages/Home/Home.jsx'));
+const WhatsAppButton = lazy(() => import('./shared/components/WhatsAppButton/WhatsAppButton.jsx'));
+const ScrollToTopButton = lazy(() => import('./shared/components/ScrollToTopButton/ScrollToTopButton.jsx'));
+
+// Keep critical UI components loaded immediately
 import { useDeliveryLocation } from './presentation/components/features/location/DeliveryLocationSelector/useDeliveryLocation.jsx';
 import { Header, Footer } from './presentation/components/layout';
-import Home from './presentation/pages/Home/Home.jsx';
 import { fetchProducts } from './infrastructure/state/slices/productsSlice.js';
 import { openLocationModal } from './infrastructure/state/slices/locationSlice.js';
-import { WhatsAppButton, ScrollToTopButton } from './shared/components';
 
 function App() {
   const dispatch = useDispatch();
@@ -43,16 +48,22 @@ function App() {
   }, []);
 
   return (
-    <SwipeToEnter loading={loading}>
-      <div className="app-content">
-        <Modal />
-        <WhatsAppButton />
-        <ScrollToTopButton />
-        <Header />
-        <Home />
-        <Footer />
-      </div>
-    </SwipeToEnter>
+    <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'white' }}><div style={{ animation: 'spin 1s linear infinite', borderRadius: '9999px', height: '4rem', width: '4rem', borderBottom: '4px solid rgb(22, 163, 74)' }}></div></div>}>
+      <SwipeToEnter loading={loading}>
+        <div className="app-content">
+          <Modal />
+          <Suspense fallback={null}>
+            <WhatsAppButton />
+            <ScrollToTopButton />
+          </Suspense>
+          <Header />
+          <Suspense fallback={<div style={{ minHeight: '50vh' }}></div>}>
+            <Home />
+          </Suspense>
+          <Footer />
+        </div>
+      </SwipeToEnter>
+    </Suspense>
   );
 }
 

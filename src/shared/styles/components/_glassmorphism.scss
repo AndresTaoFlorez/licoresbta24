@@ -5,46 +5,66 @@
 @use '../colors' as *;
 @use '../design-tokens' as *;
 
-// Glass card effect
+// Glass card effect - OPTIMIZED (reduced blur for performance)
 .glass {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(51, 98, 61, 0.15);
 
+  // Only apply backdrop-filter on desktop (mobile performance killer)
+  @media (min-width: 768px) {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.75);
+  }
+
   &--dark {
-    background: rgba(20, 27, 5, 0.75);
+    background: rgba(20, 27, 5, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media (min-width: 768px) {
+      background: rgba(20, 27, 5, 0.75);
+    }
   }
 
   &--brand {
-    background: rgba(51, 98, 61, 0.75);
+    background: rgba(51, 98, 61, 0.85);
     border: 1px solid rgba(145, 213, 160, 0.3);
+
+    @media (min-width: 768px) {
+      background: rgba(51, 98, 61, 0.75);
+    }
   }
 
   &--light {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+
+    @media (min-width: 768px) {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
   }
 }
 
-// Frosted glass modal/overlay
+// Frosted glass modal/overlay - OPTIMIZED
 .frosted-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(20, 27, 5, 0.4);
-  backdrop-filter: blur(12px) saturate(150%);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  background: rgba(20, 27, 5, 0.7);
   z-index: $z-index-modal-backdrop;
+
+  // Only apply blur on desktop
+  @media (min-width: 768px) {
+    background: rgba(20, 27, 5, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
 }
 
-// Glass button
+// Glass button - OPTIMIZED (no blur on mobile)
 .glass-button {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: $white;
   padding: $space-3 $space-6;
@@ -53,39 +73,60 @@
   cursor: pointer;
   transition: all $duration-base $easing-out;
 
+  // Only blur on desktop
+  @media (min-width: 768px) {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
   &:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.3);
     border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
   }
 }
 
-// Glass card (for sections)
+// Glass card (for sections) - OPTIMIZED
 .glass-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: $radius-2xl;
   padding: $space-8;
   box-shadow:
     0 4px 6px rgba(51, 98, 61, 0.05),
     0 10px 25px rgba(51, 98, 61, 0.1);
+
+  // Only blur on desktop
+  @media (min-width: 768px) {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }
 
-// Gradient glass effect
+// Gradient glass effect - OPTIMIZED
 .gradient-glass {
   position: relative;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(255, 255, 255, 0.7) 100%
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.85) 100%
   );
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: $radius-2xl;
   overflow: hidden;
+
+  // Only blur on desktop
+  @media (min-width: 768px) {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.7) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 
   // Subtle gradient overlay
   &::before {

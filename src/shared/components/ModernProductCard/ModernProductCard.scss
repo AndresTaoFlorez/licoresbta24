@@ -96,7 +96,7 @@
     }
   }
 
-  // Favorite icon
+  // Favorite icon - OPTIMIZED (no blur on mobile)
   &__favorite {
     position: absolute;
     top: $space-2;
@@ -106,13 +106,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.98);
     border-radius: $radius-full;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all $duration-fast $easing-out;
     z-index: 2;
+
+    // Only blur on desktop
+    @media (min-width: 768px) {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(6px);
+    }
 
     svg {
       width: 16px;

@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Heart } from 'lucide-react';
+import { useState, memo } from 'react';
+import { Heart } from '../icons/index.jsx';
 import './ModernProductCard.scss';
 
 /**
  * ModernProductCard - Premium product card with animations
  * Uses brand colors and modern design patterns
+ * Optimized with React.memo to prevent unnecessary re-renders
  */
 function ModernProductCard({ product, badge = null, onToggleFavorite, isFavorite = false }) {
   const [localFavorite, setLocalFavorite] = useState(isFavorite);
@@ -28,6 +29,7 @@ function ModernProductCard({ product, badge = null, onToggleFavorite, isFavorite
           alt={product.PRODUCTO}
           className="modern-product-card__image"
           loading="lazy"
+          decoding="async"
         />
 
         <div className="modern-product-card__overlay" />
@@ -101,4 +103,13 @@ export function ModernProductCardSkeleton() {
   );
 }
 
-export default ModernProductCard;
+// Memoize to prevent unnecessary re-renders in lists
+export default memo(ModernProductCard, (prevProps, nextProps) => {
+  // Only re-render if these props change
+  return (
+    prevProps.product.PRODUCTO === nextProps.product.PRODUCTO &&
+    prevProps.product.PRECIO === nextProps.product.PRECIO &&
+    prevProps.badge === nextProps.badge &&
+    prevProps.isFavorite === nextProps.isFavorite
+  );
+});

@@ -1,6 +1,5 @@
-import { Phone, Instagram } from 'lucide-react';
+import { Phone, Instagram, TikTok } from '../../../../shared/components/icons/index.jsx';
 import { handleContactClick } from '../../../../shared/components/WhatsAppButton/whatsappUtils.js';
-import { FaTiktok } from 'react-icons/fa';
 import './Footer.scss';
 
 function Footer() {
@@ -28,7 +27,7 @@ function Footer() {
                 rel="noopener noreferrer"
                 className="social-link tiktok"
               >
-                <FaTiktok className="social-icon" />
+                <TikTok className="social-icon" />
               </a>
             </div>
           </div>

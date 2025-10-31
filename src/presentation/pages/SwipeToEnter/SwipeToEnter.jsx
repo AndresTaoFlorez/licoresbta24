@@ -22,8 +22,8 @@ export default function SwipeToEnter({ children, loading }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen w-full bg-white">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-green-600"></div>
+      <div className="swipe-to-enter-loading">
+        <div className="spinner"></div>
       </div>
     );
   }
@@ -33,7 +33,7 @@ export default function SwipeToEnter({ children, loading }) {
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen w-full">
+    <div className="swipe-to-enter-container">
       {/* BackgroundEffects visible en ambas fases */}
       <BackgroundEffects />
 

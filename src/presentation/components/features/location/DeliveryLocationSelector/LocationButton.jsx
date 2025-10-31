@@ -1,4 +1,4 @@
-import { MapPin } from 'lucide-react';
+import { MapPin } from '../../../../../shared/components/icons/index.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { openLocationModal } from '../../../../../infrastructure/state/slices/locationSlice';
 import './LocationButton.scss';

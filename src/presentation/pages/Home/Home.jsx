@@ -1,10 +1,13 @@
 import { Helmet } from "react-helmet";
 import { useSelector, useDispatch } from "react-redux";
-import Products from '../../components/features/products/ProductList/ProductList.jsx';
-import { ModernCategories } from '../../../shared/components';
-import CategoryPage from "../Category/CategoryPage.jsx";
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+import { ModernCategories } from '../../../shared/components';
 import { setCategory } from '../../../infrastructure/state/slices/productsSlice.js';
+
+// Lazy load route components
+const Products = lazy(() => import('../../components/features/products/ProductList/ProductList.jsx'));
+const CategoryPage = lazy(() => import("../Category/CategoryPage.jsx"));
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -26,11 +29,13 @@ const Home = () => {
         selectedCategory={selectedCategory}
         onCategoryClick={handleCategoryClick}
       />
-      <Routes>
-        <Route path="/" element={<Products items={products} />} />
-        <Route path="/home" element={<Products items={products} />} />
-        <Route path="/:categoryName" element={<CategoryPage />} />
-      </Routes>
+      <Suspense fallback={<div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div style={{ width: '40px', height: '40px', border: '3px solid rgba(0,0,0,0.1)', borderTop: '3px solid rgb(51, 98, 61)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }}></div></div>}>
+        <Routes>
+          <Route path="/" element={<Products items={products} />} />
+          <Route path="/home" element={<Products items={products} />} />
+          <Route path="/:categoryName" element={<CategoryPage />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 };

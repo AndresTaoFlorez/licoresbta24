@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from '../icons/index.jsx';
 import { Category } from '../../../domain/valueObjects/Category';
 import './ModernCategories.scss';
 

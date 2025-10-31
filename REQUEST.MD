@@ -1,352 +1,314 @@
-## Prompt Mejorado para Claude Code
+# ANÁLISIS CRÍTICO DE PERFORMANCE - Lighthouse Score 32
 
-```
-# ANÁLISIS Y OPTIMIZACIÓN DE PERFORMANCE - Lighthouse 35 → 90+
+## CONTEXTO URGENTE
+Mi sitio web licoresbta24.com tiene un puntaje de Performance de **32/100** en Lighthouse.
 
-## CONTEXTO DEL PROYECTO
-- **Sitio:** licoresbta24.com (eCommerce de licores en Bogotá)
-- **Stack:** React + Vite + SCSS + Redux
-- **Estado actual:** Visualmente pulido y funcional
-- **Lighthouse scores:**
-  - Performance: 35 ❌
-  - Accessibility: 84 ⚠️
-  - Best Practices: 100 ✅
-  - SEO: 92 ✅
+**Métricas actuales detectadas:**
+- ❌ CLS (Cumulative Layout Shift): Crítico - elementos saltando durante carga
+- ❌ SI (Speed Index): Muy lento - contenido visible tarda mucho
+- ❌ FCP (First Contentful Paint): Lento - primera pintura demorada
+- ❌ LCP (Largest Contentful Paint): Crítico - contenido principal tarda >4s
+- ⚠️ TBT (Total Blocking Time): Alto - JavaScript bloqueando interacción
 
-## CARACTERÍSTICAS TÉCNICAS CONOCIDAS
-- Animaciones CSS complejas (backdrop-filter, blur, gradients)
-- Redux para manejo de estado
-- React Router para navegación
-- Componentes con efectos glassmorphism
-- Imágenes de productos (posiblemente sin optimizar)
-- Efectos de parallax/background animados
-- Fuentes custom (probablemente Google Fonts)
-
-## OBJETIVO
-Elevar Performance a **mínimo 90** sin sacrificar la estética visual premium del sitio.
+**Stack:** React + Vite + SCSS + Redux
+**Target:** Subir a mínimo 80-90 en las próximas 2 horas
 
 ---
 
-## TAREAS ESPECÍFICAS
+## ANÁLISIS REQUERIDO
 
-### 1️⃣ ANÁLISIS PROFUNDO DEL BUILD
-**Acción:** Analiza el bundle de producción actual.
-
+### 1. EJECUTA LIGHTHOUSE LOCALMENTE
 ```bash
-# Ejecuta estos comandos y analiza resultados:
+# Genera reporte detallado
 npm run build
-ls -lh dist/assets/
+npx lighthouse http://localhost:4173 --view --preset=desktop
 ```
 
-**Detecta:**
-- ✅ Tamaño total del JS bundle (objetivo: <200KB gzipped)
-- ✅ Dependencias pesadas (React Icons, animaciones, Redux)
-- ✅ Código no usado (tree-shaking efectivo)
-- ✅ Chunks duplicados
-
-**Propón:**
-- Code-splitting por rutas con React.lazy()
-- Lazy loading de componentes pesados (ModernProductCard, Slider)
-- Análisis con `rollup-plugin-visualizer`
+**Analiza el reporte y encuentra:**
+- 🔴 Principales culpables de LCP (imágenes grandes, fuentes, JS bloqueante)
+- 🔴 Qué causa el CLS (elementos sin dimensiones, fuentes cargando)
+- 🔴 Scripts bloqueando FCP/SI
+- 🔴 Recursos sin comprimir o caché
 
 ---
 
-### 2️⃣ OPTIMIZACIÓN DE IMÁGENES Y ASSETS
+## PROBLEMAS COMUNES A VERIFICAR (EN ORDEN DE IMPACTO)
 
-**Detecta:**
-- Imágenes de productos sin compresión
-- Formatos obsoletos (PNG/JPG en lugar de WebP/AVIF)
-- Imágenes cargadas antes del viewport
-- SVGs sin optimizar
-- Logos o iconos que podrían ser inline SVG
+### 🚨 PRIORIDAD CRÍTICA 1: LCP (Largest Contentful Paint)
 
-**Propón:**
+**Busca estos problemas:**
 ```jsx
-// Ejemplo de optimización esperada:
+// ❌ PROBLEMA: Imágenes hero sin optimizar
+<img src="/hero-background.jpg" /> // 2MB+, bloquea LCP
+
+// ✅ SOLUCIÓN ESPERADA:
 <img 
-  src="/products/whisky.webp"
-  srcSet="/products/whisky-mobile.webp 480w, /products/whisky-desktop.webp 1200w"
-  sizes="(max-width: 768px) 480px, 1200px"
-  loading="lazy"
+  src="/hero-background.webp"
+  srcSet="/hero-sm.webp 640w, /hero-md.webp 1024w, /hero-lg.webp 1920w"
+  sizes="100vw"
+  fetchpriority="high"
   decoding="async"
-  alt="..."
+  alt="Hero"
 />
 ```
 
-**Herramientas a configurar:**
-- `vite-plugin-imagemin` para compresión automática
-- Conversión a WebP/AVIF en build time
-- Lazy loading nativo en todas las imágenes no-hero
-
----
-
-### 3️⃣ REDUCCIÓN DE COSTO DE RENDERIZADO
-
-**Identifica componentes con:**
-- `backdrop-filter: blur()` (muy costoso en móvil)
-- Animaciones con `transform` no optimizadas
-- Sombras complejas (`box-shadow` con múltiples capas)
-- Gradientes animados
-- Re-renders innecesarios
-
-**Propón alternativas:**
-```scss
-// MAL (costoso)
-.card {
-  backdrop-filter: blur(20px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}
-
-// BIEN (optimizado)
-.card {
-  background: rgba(0,0,0,0.8); // blur estático en imagen de fondo
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3); // sombra más simple
-  will-change: transform; // hint al navegador
-}
-```
-
-**Optimiza animaciones:**
-- Usa `transform` y `opacity` únicamente
-- Evita `width`, `height`, `top`, `left` en animaciones
-- Añade `will-change` selectivamente
-- React.memo() en componentes que no necesitan re-render
-
----
-
-### 4️⃣ OPTIMIZACIÓN DE FUENTES
-
-**Detecta:**
-- Fuentes externas sin preload
-- Múltiples pesos de fuente cargados innecesariamente
-- `font-display` no configurado
-
-**Propón:**
+**Acciones:**
+- Detecta la imagen más grande above-the-fold
+- Convierte a WebP/AVIF
+- Añade `fetchpriority="high"` al elemento LCP
+- Preload del recurso crítico:
 ```html
-<!-- index.html optimizado -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link 
-  rel="preload" 
-  as="style"
-  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
->
-<link 
-  rel="stylesheet" 
-  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-  media="print" 
-  onload="this.media='all'"
->
+<link rel="preload" as="image" href="/hero.webp" fetchpriority="high">
 ```
 
-**Configuración SCSS:**
+---
+
+### 🚨 PRIORIDAD CRÍTICA 2: CLS (Layout Shift)
+
+**Busca estos problemas:**
+```jsx
+// ❌ PROBLEMA: Imágenes sin dimensiones
+<img src="/product.jpg" />
+
+// ✅ SOLUCIÓN:
+<img src="/product.jpg" width="300" height="400" loading="lazy" />
+```
+
+**Acciones:**
+- Añade `width` y `height` a TODAS las imágenes
+- Reserva espacio para fuentes con `font-display: swap`
+- Detecta componentes que causan reflow (Slider, ModernCategories, etc.)
 ```scss
-// Añadir font-display en @font-face custom
+// Reservar espacio para fuentes
 @font-face {
-  font-family: 'CustomFont';
-  src: url('/fonts/custom.woff2') format('woff2');
-  font-display: swap; // crítico para performance
+  font-family: 'Poppins';
+  font-display: swap; // crítico para evitar CLS
+  src: url('/fonts/poppins.woff2') format('woff2');
 }
 ```
 
 ---
 
-### 5️⃣ CONFIGURACIÓN DE VITE OPTIMIZADA
+### 🚨 PRIORIDAD CRÍTICA 3: FCP/SI (Render Bloqueante)
 
-**Propón `vite.config.js` mejorado:**
+**Busca estos problemas:**
+```javascript
+// ❌ PROBLEMA: Bundle monolítico
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import SwipeToEnter from './pages/SwipeToEnter';
+import Home from './pages/Home';
+import CategoryPage from './pages/CategoryPage';
+// 500KB+ de JS antes de renderizar
+
+// ✅ SOLUCIÓN: Code splitting
+const SwipeToEnter = lazy(() => import('./pages/SwipeToEnter'));
+const Home = lazy(() => import('./pages/Home'));
+const CategoryPage = lazy(() => import('./pages/CategoryPage'));
+```
+
+**Acciones:**
+- Implementa `React.lazy()` en TODAS las rutas
+- Lazy load de componentes pesados (ProductCard, Slider, ModernCategories)
+- Defer de scripts no críticos
+
+---
+
+### 🚨 PRIORIDAD CRÍTICA 4: TBT (JavaScript Bloqueante)
+
+**Busca estos problemas:**
+- Redux store con datos masivos en initial state
+- Animaciones con JavaScript en lugar de CSS
+- Event listeners pesados en scroll
+- Componentes sin React.memo()
+
+**Acciones:**
+```javascript
+// ✅ Memoizar componentes pesados
+export default React.memo(ModernProductCard);
+
+// ✅ Virtualizar listas largas
+import { FixedSizeList } from 'react-window';
+
+// ✅ Throttle/debounce en scroll
+import { debounce } from 'lodash-es'; // solo importar lo necesario
+```
+
+---
+
+## CONFIGURACIÓN VITE OPTIMIZADA PARA SCORE 80+
+
+**Modifica `vite.config.js` con esta config:**
 ```javascript
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import { visualizer } from 'rollup-plugin-visualizer';
-import viteCompression from 'vite-plugin-compression';
-import viteImagemin from 'vite-plugin-imagemin';
+import { compression } from 'vite-plugin-compression2';
+import { imagetools } from 'vite-imagetools';
 
 export default defineConfig({
   plugins: [
     react(),
-    
-    // Compresión Brotli
-    viteCompression({
-      algorithm: 'brotliCompress',
-      ext: '.br',
-    }),
-    
-    // Análisis de bundle
-    visualizer({
-      open: true,
-      gzipSize: true,
-      brotliSize: true,
-    }),
-    
-    // Optimización de imágenes
-    viteImagemin({
-      gifsicle: { optimizationLevel: 7 },
-      optipng: { optimizationLevel: 7 },
-      mozjpeg: { quality: 80 },
-      svgo: {
-        plugins: [
-          { name: 'removeViewBox', active: false },
-          { name: 'removeEmptyAttrs', active: false },
-        ],
-      },
-    }),
+    compression({ algorithm: 'brotliCompress' }),
+    imagetools(),
   ],
   
   build: {
-    // Optimizaciones de producción
+    target: 'es2020',
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
+        pure_funcs: ['console.log'],
       },
     },
     
-    // Code splitting inteligente
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'redux-vendor': ['@reduxjs/toolkit', 'react-redux'],
-          'ui-vendor': ['lucide-react'],
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          redux: ['@reduxjs/toolkit', 'react-redux'],
         },
       },
     },
     
-    // Chunk size warnings
-    chunkSizeWarningLimit: 500,
-    
-    // CSS code splitting
     cssCodeSplit: true,
+    reportCompressedSize: false,
   },
   
-  // Optimización de dependencias
-  optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+  server: {
+    hmr: { overlay: false },
   },
 });
 ```
 
 ---
 
-### 6️⃣ CODE SPLITTING Y LAZY LOADING
+## CHECKLIST DE VERIFICACIÓN INMEDIATA
 
-**Identifica rutas y componentes a hacer lazy:**
+Revisa estos archivos en orden:
+
+### 1. `index.html`
+```html
+<!-- ✅ Debe tener preconnect -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- ✅ Preload de recurso crítico -->
+<link rel="preload" as="image" href="/hero.webp" fetchpriority="high">
+
+<!-- ✅ Fuentes optimizadas -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+```
+
+### 2. `App.jsx`
 ```javascript
-// App.jsx - Lazy loading de páginas
-import { lazy, Suspense } from 'react';
+// ❌ Busca imports directos
+import SwipeToEnter from './pages/SwipeToEnter';
 
-const SwipeToEnter = lazy(() => import('./presentation/pages/SwipeToEnter/SwipeToEnter'));
-const Home = lazy(() => import('./presentation/pages/Home/Home'));
-const CategoryPage = lazy(() => import('./presentation/pages/Category/CategoryPage'));
+// ✅ Debe ser lazy
+const SwipeToEnter = lazy(() => import('./pages/SwipeToEnter'));
+```
 
-// Componentes pesados también
-const ModernProductCard = lazy(() => import('./presentation/components/shared/ModernProductCard'));
+### 3. Componentes de imagen
+```jsx
+// ❌ Busca imágenes sin atributos
+<img src="/product.jpg" />
+
+// ✅ Debe tener
+<img 
+  src="/product.webp" 
+  width="300" 
+  height="400" 
+  loading="lazy"
+  decoding="async"
+/>
+```
+
+### 4. `main.scss`
+```scss
+// ❌ Busca imports masivos
+@import 'components/_modern-card.scss';
+@import 'components/_product-list.scss';
+// ... 20 imports más
+
+// ✅ Critical CSS inline, resto lazy
+```
+
+### 5. Redux Store
+```javascript
+// ❌ Busca initial state pesado
+const initialState = {
+  products: [...1000 productos], // NO!
+};
+
+// ✅ Estado vacío, cargar async
+const initialState = {
+  products: [],
+  loading: false,
+};
 ```
 
 ---
 
-### 7️⃣ OPTIMIZACIÓN DE REDUX
+## PLAN DE ACCIÓN EN 2 HORAS
 
-**Detecta:**
-- Selectors sin memoización
-- Estado innecesario en Redux
-- Re-renders por cambios irrelevantes
+**⏱️ HORA 1: Quick Wins (0-60 min)**
+1. [10 min] Code splitting de rutas con React.lazy()
+2. [15 min] Añadir width/height a todas las imágenes
+3. [10 min] Convertir imágenes críticas a WebP
+4. [15 min] Preload de recursos críticos (hero image, fuente)
+5. [10 min] font-display: swap en todas las fuentes
 
-**Propón:**
-```javascript
-// Usar createSelector de reselect
-import { createSelector } from '@reduxjs/toolkit';
-
-const selectProducts = (state) => state.products.items;
-const selectCategory = (state) => state.filters.category;
-
-export const selectFilteredProducts = createSelector(
-  [selectProducts, selectCategory],
-  (products, category) => 
-    products.filter(p => p.category === category)
-);
-```
-
----
-
-## DIAGNÓSTICO FINAL ESPERADO
-
-### 🔍 ANÁLISIS RESUMIDO
-```
-Bundle actual:
-  - JS total: XXX KB (gzipped)
-  - CSS total: XXX KB
-  - Imágenes: XXX MB sin comprimir
-  - Dependencias pesadas detectadas: [lista]
-
-Principales problemas:
-  1. [Problema específico con métrica]
-  2. [Problema específico con métrica]
-  3. [Problema específico con métrica]
-```
-
-### 🧠 CUELLOS DE BOTELLA DETECTADOS
-```
-Alto impacto:
-  - ❌ Imágenes sin lazy loading (FCP +2.5s)
-  - ❌ Bundle de 500KB sin code-splitting (TTI +3s)
-  - ❌ backdrop-filter en 15 componentes (FPS <30)
-
-Medio impacto:
-  - ⚠️ Fuentes bloqueando renderizado (+0.8s)
-  - ⚠️ Redux causando re-renders innecesarios
-
-Bajo impacto:
-  - 💡 SVGs sin optimizar (+50KB)
-```
-
-### ⚙️ PLAN DE ACCIÓN PRIORIZADO
-
-**🔴 PRIORIDAD ALTA (Hacer primero - Mayor impacto)**
-1. Code-splitting de rutas
-2. Lazy loading de imágenes
-3. Optimización de backdrop-filter
-4. Configuración de Vite mejorada
-
-**🟡 PRIORIDAD MEDIA**
-1. Optimización de fuentes
-2. Memoización de Redux selectors
-3. Compresión de assets
-
-**🟢 PRIORIDAD BAJA**
-1. Optimización de SVGs
-2. Preload de recursos críticos
-
-### 🚀 CONFIGURACIÓN DE BUILD FINAL
-[Vite config completo optimizado]
+**⏱️ HORA 2: Optimizaciones Profundas (60-120 min)**
+1. [20 min] Optimizar vite.config.js
+2. [20 min] Lazy load de componentes pesados
+3. [15 min] React.memo() en componentes que re-renderizan
+4. [15 min] Comprimir assets con imagetools
+5. [10 min] Verificar bundle con rollup-plugin-visualizer
 
 ---
 
 ## FORMATO DE RESPUESTA ESPERADO
 
-Para cada optimización, proporciona:
-- ✅ **Qué hacer** (acción específica)
-- 📊 **Impacto esperado** (ej: "FCP -1.2s, LCP -2.1s")
-- 🔧 **Código exacto** (sin pseudocódigo)
-- ⏱️ **Tiempo de implementación** (5 min / 30 min / 2 horas)
-- 🎯 **Prioridad** (Alta/Media/Baja)
-
-## RESTRICCIONES
-- ❌ NO sacrificar la estética visual premium
-- ❌ NO eliminar animaciones clave del UX
-- ✅ Mantener compatibilidad con navegadores modernos (últimos 2 años)
-- ✅ Enfoque mobile-first (80% del tráfico es móvil)
-
-## ENTREGABLES
-1. Lista priorizada de optimizaciones con código
-2. `vite.config.js` optimizado completo
-3. Snippets de código para componentes críticos
-4. Checklist de verificación post-implementación
-5. Estimación de mejora de score (35 → XX)
-
-Sé específico, técnico y directo. Evita teoría genérica.
+Para cada problema encontrado:
+```
+❌ PROBLEMA DETECTADO: [Descripción técnica]
+📍 Ubicación: src/presentation/pages/Home/Home.jsx:45
+📊 Impacto: LCP +2.3s, CLS +0.15
+🔧 SOLUCIÓN: [Código específico a cambiar]
+⏱️ Tiempo: 10 minutos
+🎯 Ganancia esperada: +15 puntos en score
 ```
 
 ---
 
-**Este prompt está diseñado para que Claude Code analice tu proyecto completo y dé soluciones concretas e implementables.** 🚀
+## ENTREGABLES FINALES
+
+1. ✅ Lista de archivos modificados con cambios específicos
+2. ✅ Nuevo `vite.config.js` optimizado
+3. ✅ Snippet de optimización para cada métrica crítica
+4. ✅ Comando para verificar mejoras:
+```bash
+npm run build && npm run preview
+# Luego ejecutar Lighthouse
+```
+5. ✅ Score estimado después de optimizaciones
+
+---
+
+## MÉTRICAS OBJETIVO
+```
+Antes → Después
+Performance: 32 → 80+
+CLS: X → <0.1
+LCP: X → <2.5s
+FCP: X → <1.8s
+SI: X → <3.4s
+TBT: X → <200ms
+```
+
+**SÉ ESPECÍFICO, TÉCNICO Y DIRECTO.**
+Quiero código exacto a cambiar, no teoría.
+Prioriza las optimizaciones con mayor impacto primero.

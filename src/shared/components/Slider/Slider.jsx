@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight } from "../icons/index.jsx";
+import "./Slider.scss";
 
 export default function Slider({ onConfirm, text = "Desliza para confirmar →" }) {
   const [slideComplete, setSlideComplete] = useState(false);
@@ -82,17 +83,10 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
   const textOpacity = slideComplete ? 0 : Math.max(0.1, 1 - progress * 1.5);
 
   return (
-    <div className="w-full flex justify-center items-center min-h-[100px]">
+    <div className="slider-container">
       <div
         ref={sliderRef}
-        className={`
-          relative rounded-full select-none flex items-center
-          transition-all ease-in-out duration-500
-          ${slideComplete
-            ? 'bg-emerald-900 border-2 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
-            : 'bg-black/30 border-2 border-emerald-400/40 shadow-inner'
-          }
-        `}
+        className={`slider-track ${slideComplete ? 'slider-track--complete' : 'slider-track--default'}`}
         style={{
           width: isContracting ? `${BUTTON_SIZE + (MARGIN * 2)}px` : '350px',
           height: `${SLIDER_HEIGHT}px`,
@@ -104,9 +98,9 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
         }}
       >
         {/* Text */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="slider-text-container">
           <span
-            className="font-medium select-none text-base transition-all duration-300 ml-6"
+            className="slider-text"
             style={{
               opacity: textOpacity,
               color: slideComplete ? '#34d399' : 'rgba(167, 243, 208, 0.7)'
@@ -120,15 +114,7 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
         {/* Button - usando solo flexbox */}
         <div
           ref={buttonRef}
-          className={`
-            rounded-full flex items-center justify-center select-none
-            bg-gradient-to-br from-emerald-500 to-emerald-600
-            shadow-[0_4px_12px_rgba(16,185,129,0.3)]
-            transition-all ease-out duration-500 touch-none
-            ${isDragging ? 'cursor-grabbing shadow-[0_6px_16px_rgba(16,185,129,0.4)]' : 'cursor-grab'}
-            flex-shrink-0
-            z-1
-          `}
+          className={`slider-button ${isDragging ? 'slider-button--dragging' : 'slider-button--idle'}`}
           style={{
             width: isDisappearing ? '20px' : `${BUTTON_SIZE}px`,
             height: isDisappearing ? '20px' : `${BUTTON_SIZE}px`,
@@ -141,7 +127,6 @@ export default function Slider({ onConfirm, text = "Desliza para confirmar →" 
           onPointerUp={handlePointerUp}
         >
           <ChevronRight
-            className="w-5 h-5 text-white transition-all duration-300 ease-in-out"
             style={{
               opacity: slideComplete ? 0 : 1,
               transform: slideComplete ? 'scale(0)' : 'scale(1)'

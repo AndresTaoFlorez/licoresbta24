@@ -1,6 +1,5 @@
-import { Helmet } from "react-helmet";
 import { useSelector, useDispatch } from "react-redux";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ModernCategories } from '../../../shared/components';
 import { setCategory } from '../../../infrastructure/state/slices/productsSlice.js';
@@ -18,12 +17,13 @@ const Home = () => {
     dispatch(setCategory(categoryName));
   };
 
+  // Update document title dynamically
+  useEffect(() => {
+    document.title = "Licores Bogotá 24 - Licoresbta24.club";
+  }, []);
+
   return (
     <div className="content-body">
-      <Helmet>
-        <title>Licores Bogotá 24 - Licoresbta24.club</title>
-        <meta name="description" content="Compra bebidas en Bogotá las 24 horas con entrega rápida." />
-      </Helmet>
       <ModernCategories
         products={products}
         selectedCategory={selectedCategory}

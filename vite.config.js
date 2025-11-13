@@ -35,69 +35,42 @@ export default defineConfig({
   ],
 
   build: {
-    // Optimizaciones de producción
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.info'],
-        passes: 2, // Dos pasadas de minificación para mejor compresión
       },
       mangle: {
-        safari10: true, // Compatibilidad con Safari 10
+        safari10: true,
       },
     },
 
-    // Code splitting inteligente
+    // Desactivar code splitting manual - dejar que Vite lo maneje automáticamente
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // Vendor chunks separados
-          if (id.includes('node_modules')) {
-            // React core
-            if (id.includes('/react/') || id.includes('/react-dom/')) {
-              return 'react-vendor';
-            }
-            if (id.includes('react-router')) {
-              return 'router-vendor';
-            }
-            if (id.includes('@reduxjs') || id.includes('react-redux') || id.includes('reselect')) {
-              return 'redux-vendor';
-            }
-            // Otras librerías (excluye lucide-react ya que usamos SVGs inline)
-            return 'vendor';
-          }
-        },
-        // Nombres de archivos con hash para cache busting
+        manualChunks: undefined, // Vite optimiza automáticamente
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]'
       },
     },
 
-    // Chunk size warnings
-    chunkSizeWarningLimit: 500,
-
-    // CSS code splitting
+    chunkSizeWarningLimit: 1000,
     cssCodeSplit: true,
-
-    // Source maps para debugging (desactivar en producción final)
     sourcemap: false,
-
-    // Target browsers (ES2020 para mejor compresión)
     target: 'es2020',
   },
 
-  // Optimización de dependencias
   optimizeDeps: {
     include: [
       'react',
       'react-dom',
       'react-router-dom',
+      '@reduxjs/toolkit',
+      'react-redux',
     ],
-    // Excluir unused dependencies del pre-bundling
-    exclude: ['motion', 'swapy', 'lucide-react'],
   },
 
   server: {

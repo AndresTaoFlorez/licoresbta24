@@ -1,22 +1,4 @@
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
-
-  # NO redirigir si el archivo o directorio existe
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-
-  # Redirigir todas las rutas a index.html
-  RewriteRule ^ index.html [L]
-</IfModule>
-
-# Configuración de tipos MIME para SPA
-<IfModule mod_mime.c>
-  AddType application/javascript js
-  AddType text/css css
-</IfModule>
-
-# Habilitar compresión si está disponible
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript
-</IfModule>
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.html [QSA,L]

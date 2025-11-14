@@ -47,44 +47,70 @@ Antes de comenzar, necesitas:
 
 ## 🚀 Pasos de Implementación
 
-### Paso 1: Actualizar el ID de Publisher
+### Paso 1: Configurar Variables de Entorno (ÚNICO PASO NECESARIO)
 
-1. **En el archivo `index.html` (línea 50):**
+**TODO está automatizado - solo configura las variables de entorno y el sistema hace el resto.**
 
-   Reemplaza `ca-pub-XXXXXXXXXXXXXXXX` con tu ID real de Google AdSense:
+1. **Copia el archivo de ejemplo:**
 
-   ```html
-   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-TU_ID_AQUI"
-      crossorigin="anonymous"></script>
+   ```bash
+   cp .env.example .env
    ```
 
-2. **En el archivo `public/ads.txt` (línea 2):**
-
-   Reemplaza `pub-XXXXXXXXXXXXXXXX` con tu ID de publisher:
-
-   ```
-   google.com, pub-TU_ID_AQUI, DIRECT, f08c47fec0942fa0
-   ```
-
-### Paso 2: Configurar Variables de Entorno
-
-1. **Crea o actualiza el archivo `.env` en la raíz del proyecto:**
+2. **Edita el archivo `.env` y reemplaza los valores:**
 
    ```env
    # Google Ads Configuration
-   VITE_GOOGLE_ADS_PUBLISHER_ID=ca-pub-XXXXXXXXXXXXXXXX
-   VITE_GOOGLE_ADS_CONVERSION_ID=AW-XXXXXXXXXX
-   VITE_GOOGLE_ADS_PURCHASE_LABEL=purchase_label_here
-   VITE_GOOGLE_ADS_CONTACT_LABEL=contact_label_here
+   VITE_GOOGLE_ADS_PUBLISHER_ID=ca-pub-1234567890123456  # ← Reemplaza con tu ID real
+   VITE_GOOGLE_ADS_CONVERSION_ID=AW-1234567890          # ← Reemplaza con tu ID real
+   VITE_GOOGLE_ADS_PURCHASE_LABEL=tu_label_de_compras   # ← Reemplaza con tu label real
+   VITE_GOOGLE_ADS_CONTACT_LABEL=tu_label_de_contacto   # ← Reemplaza con tu label real
    ```
 
-2. **Reemplaza los valores:**
-   - `VITE_GOOGLE_ADS_PUBLISHER_ID`: Tu ID de publisher completo
-   - `VITE_GOOGLE_ADS_CONVERSION_ID`: Tu ID de conversión (de Google Ads)
-   - `VITE_GOOGLE_ADS_PURCHASE_LABEL`: Label para conversión de compras
-   - `VITE_GOOGLE_ADS_CONTACT_LABEL`: Label para conversión de contacto
+3. **¿Qué sucede automáticamente?**
+   - ✅ El script de Google Ads se carga automáticamente en el sitio usando `VITE_GOOGLE_ADS_PUBLISHER_ID`
+   - ✅ El archivo `ads.txt` se genera automáticamente en el build usando `VITE_GOOGLE_ADS_PUBLISHER_ID`
+   - ✅ Las funciones de tracking usan automáticamente los IDs y labels configurados
+   - ✅ Si no configuras las variables, el sistema simplemente NO carga Google Ads (sin errores)
 
-3. **IMPORTANTE:** Asegúrate de que `.env` esté en `.gitignore`
+4. **IMPORTANTE:**
+   - ✅ El archivo `.env` ya está en `.gitignore` - está protegido
+   - ⚠️ NUNCA comitees el archivo `.env` al repositorio
+   - ✅ Usa `.env.example` para documentar las variables necesarias
+
+### Paso 2: Configurar Variables en Producción
+
+**El archivo `.env` solo funciona en desarrollo local.** Para producción, debes configurar las variables de entorno en tu plataforma de hosting.
+
+#### Si usas GitHub Actions + Servidor VPS (tu caso):
+
+1. **Ve a tu repositorio en GitHub**
+2. **Settings → Secrets and variables → Actions**
+3. **Click en "New repository secret"**
+4. **Agrega cada variable:**
+
+   | Name | Value |
+   |------|-------|
+   | `VITE_GOOGLE_ADS_PUBLISHER_ID` | `ca-pub-1234567890123456` |
+   | `VITE_GOOGLE_ADS_CONVERSION_ID` | `AW-1234567890` |
+   | `VITE_GOOGLE_ADS_PURCHASE_LABEL` | `tu_label_de_compras` |
+   | `VITE_GOOGLE_ADS_CONTACT_LABEL` | `tu_label_de_contacto` |
+
+5. **Las variables se inyectarán automáticamente durante el build en GitHub Actions**
+
+#### Si usas Vercel, Netlify u otro hosting:
+
+1. **Ve al dashboard de tu proyecto**
+2. **Busca "Environment Variables" o "Settings"**
+3. **Agrega las mismas 4 variables**
+4. **Redeploy tu sitio**
+
+#### ¿Cómo funcionan las variables de entorno?
+
+- **Desarrollo local:** Lee del archivo `.env`
+- **Build en GitHub Actions:** Lee de GitHub Secrets
+- **Build en Vercel/Netlify:** Lee de sus configuraciones
+- **Las variables se "incrustán" en el código durante el build** (no se leen en runtime)
 
 ### Paso 3: Configurar Conversiones en Google Ads
 

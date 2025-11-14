@@ -1,11 +1,15 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { visualizer } from 'rollup-plugin-visualizer'
 import viteCompression from 'vite-plugin-compression'
-import { copyFileSync } from 'fs'
+import { copyFileSync, writeFileSync } from 'fs'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  // Cargar variables de entorno
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
   base: './', // usa rutas relativas
   plugins: [
     react(),
@@ -34,15 +38,26 @@ export default defineConfig({
       deleteOriginFile: false
     }),
 
-    // Plugin personalizado para copiar .htaccess
+    // Plugin personalizado para copiar .htaccess y generar ads.txt
     {
-      name: 'copy-htaccess',
+      name: 'copy-files',
       closeBundle() {
         try {
+          // Copiar .htaccess
           copyFileSync('public/.htaccess', 'dist/.htaccess')
           console.log('✓ .htaccess copiado a dist/')
+
+          // Generar ads.txt si hay Publisher ID configurado
+          const publisherId = env.VITE_GOOGLE_ADS_PUBLISHER_ID;
+          if (publisherId && publisherId !== 'ca-pub-XXXXXXXXXXXXXXXX') {
+            const adsTxtContent = `# Google AdSense\ngoogle.com, ${publisherId.replace('ca-', '')}, DIRECT, f08c47fec0942fa0\n`;
+            writeFileSync('dist/ads.txt', adsTxtContent);
+            console.log('✓ ads.txt generado en dist/');
+          } else {
+            console.log('⚠ ads.txt NO generado - Configura VITE_GOOGLE_ADS_PUBLISHER_ID en .env');
+          }
         } catch (err) {
-          console.error('Error copiando .htaccess:', err)
+          console.error('Error en copy-files plugin:', err)
         }
       }
     },
@@ -99,4 +114,5 @@ export default defineConfig({
   server: {
     allowedHosts: true
   },
+  };
 });

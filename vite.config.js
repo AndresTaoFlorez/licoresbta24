@@ -41,16 +41,24 @@ export default defineConfig({
         drop_console: true,
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.info'],
+        passes: 2, // Mejorar compresión con 2 pasadas
       },
       mangle: {
         safari10: true,
       },
     },
 
-    // Desactivar code splitting manual - dejar que Vite lo maneje automáticamente
+    // Code splitting optimizado para mejor carga
     rollupOptions: {
       output: {
-        manualChunks: undefined, // Vite optimiza automáticamente
+        manualChunks: {
+          // Separar dependencias grandes en chunks
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-router': ['react-router-dom'],
+          'vendor-redux': ['@reduxjs/toolkit', 'react-redux'],
+          'vendor-motion': ['motion'],
+          'vendor-icons': ['lucide-react', 'react-icons'],
+        },
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]'
@@ -61,6 +69,7 @@ export default defineConfig({
     cssCodeSplit: true,
     sourcemap: false,
     target: 'es2020',
+    reportCompressedSize: false, // Acelera el build
   },
 
   optimizeDeps: {

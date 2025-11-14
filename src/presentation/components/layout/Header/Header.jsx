@@ -1,8 +1,17 @@
 import { Link } from "react-router";
+import { useDispatch } from "react-redux";
+import { setCategory } from "../../../../infrastructure/state/slices/productsSlice.js";
 import LocationButton from "../../features/location/DeliveryLocationSelector/LocationButton";
 import './Header.scss';
 
 function Header() {
+  const dispatch = useDispatch();
+
+  const handleLogoClick = () => {
+    // Reset category to show all products when clicking logo
+    dispatch(setCategory(''));
+  };
+
   return (
     <div className="header">
       {/* Ubicación */}
@@ -11,7 +20,7 @@ function Header() {
       {/* Contenido principal del header */}
       <div className="header__content">
         {/* Contenedor del logo */}
-        <Link to="/home" className="header__logo-container">
+        <Link to="/home" className="header__logo-container" onClick={handleLogoClick}>
           <div className="header__logo-wrapper">
             <div className="header__logo-inner">
               <img

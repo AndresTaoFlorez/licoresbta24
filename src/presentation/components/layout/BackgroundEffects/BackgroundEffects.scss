@@ -14,8 +14,8 @@
   overflow: hidden;
   z-index: -1;
   pointer-events: none;
-  // filter: blur(5px);
-  // -webkit-backdrop-filter: blur(5px);
+  filter: blur(5px);
+  backdrop-filter: blur(5px);
   &__gradient {
     position: absolute;
     inset: 0;

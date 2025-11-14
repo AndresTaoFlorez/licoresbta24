@@ -1,5 +1,32 @@
 # ✅ Resumen de Integración de Google Ads
 
+## 🚀 Inicio Rápido (Para Activar Google Ads)
+
+### Desarrollo Local:
+```bash
+# 1. Copiar plantilla
+cp .env.example .env
+
+# 2. Editar .env con tus credenciales
+nano .env  # o tu editor favorito
+
+# 3. Probar
+npm run dev
+```
+
+### Producción (Hostinger con GitHub Actions):
+1. **Ve a GitHub:** tu-repo → Settings → Secrets and variables → Actions
+2. **Agrega 4 secrets:**
+   - `VITE_GOOGLE_ADS_PUBLISHER_ID`
+   - `VITE_GOOGLE_ADS_CONVERSION_ID`
+   - `VITE_GOOGLE_ADS_PURCHASE_LABEL`
+   - `VITE_GOOGLE_ADS_CONTACT_LABEL`
+3. **Haz push a main:** `git push origin main`
+4. **GitHub Actions compilará con las variables automáticamente**
+5. **Se desplegará a Hostinger con Google Ads activo**
+
+---
+
 ## 📦 Archivos Creados y Modificados
 
 ### ✏️ Archivos Modificados:
@@ -16,11 +43,16 @@
 - ✅ Plugin actualizado para generar `ads.txt` automáticamente durante el build
 - ✅ Usa la variable `VITE_GOOGLE_ADS_PUBLISHER_ID` del entorno
 
+#### 4. `.github/workflows/deploy.yml`
+- ✅ Step agregado para crear `.env` con GitHub Secrets
+- ✅ Inyecta las 4 variables antes del build
+- ✅ Código compilado incluye Google Ads automáticamente
+
 ---
 
 ### 📄 Archivos Creados:
 
-#### 4. `.env.example`
+#### 5. `.env.example`
 ```env
 VITE_GOOGLE_ADS_PUBLISHER_ID=ca-pub-XXXXXXXXXXXXXXXX
 VITE_GOOGLE_ADS_CONVERSION_ID=AW-XXXXXXXXXX
@@ -30,20 +62,20 @@ VITE_GOOGLE_ADS_CONTACT_LABEL=
 **Estado:** ✅ Archivo de ejemplo creado
 **Acción requerida:** Copiar a `.env` y configurar con valores reales
 
-#### 5. `dist/ads.txt` (generado automáticamente)
+#### 6. `dist/ads.txt` (generado automáticamente)
 - ✅ Se genera automáticamente durante `npm run build`
 - ✅ Usa `VITE_GOOGLE_ADS_PUBLISHER_ID` de las variables de entorno
 - ⚠️ NO necesitas crear este archivo manualmente
 
 ---
 
-#### 6. `src/utils/GoogleAdsScript.jsx`
+#### 7. `src/utils/GoogleAdsScript.jsx`
 - ✅ Componente React que carga el script de Google Ads
 - ✅ Se carga automáticamente en `App.jsx`
 - ✅ Usa `VITE_GOOGLE_ADS_PUBLISHER_ID` de las variables de entorno
 - ✅ No carga nada si la variable no está configurada (sin errores)
 
-#### 7. `src/utils/googleAds.js`
+#### 8. `src/utils/googleAds.js`
 Funciones de tracking creadas:
 - ✅ `trackConversion()` - Tracking genérico
 - ✅ `trackPurchase()` - Tracking de compras
@@ -56,7 +88,7 @@ Funciones de tracking creadas:
 
 ---
 
-#### 8. `src/shared/components/GoogleAdBanner/`
+#### 9. `src/shared/components/GoogleAdBanner/`
 Componente completo creado:
 - ✅ `GoogleAdBanner.jsx` - Componente React
 - ✅ `GoogleAdBanner.scss` - Estilos
@@ -68,7 +100,7 @@ Componente completo creado:
 
 ---
 
-#### 9. `GOOGLE_ADS_SETUP.md`
+#### 10. `GOOGLE_ADS_SETUP.md`
 Documentación completa con:
 - ✅ Instrucciones paso a paso
 - ✅ Ubicaciones exactas de archivos
@@ -110,17 +142,31 @@ Documentación completa con:
 
 **Estado:** ⚠️ Pendiente - Necesitas configurar con tus datos reales
 
-### Producción (GitHub Actions / Hosting):
+### Producción (GitHub Actions):
 
-**Para GitHub Actions:**
-1. Ve a: Repositorio → Settings → Secrets and variables → Actions
-2. Agrega las 4 variables como "Repository secrets"
-3. Se inyectarán automáticamente durante el build
+**Tu workflow ya está configurado** - solo agrega los secrets:
 
-**Para Vercel/Netlify:**
-1. Ve a tu proyecto → Settings → Environment Variables
-2. Agrega las 4 variables
-3. Redeploy tu sitio
+1. **Ve a tu repositorio:**
+   - GitHub → Tu repo → Settings → Secrets and variables → Actions
+
+2. **Agrega 4 Repository Secrets:**
+   - `VITE_GOOGLE_ADS_PUBLISHER_ID` = `ca-pub-1234567890123456`
+   - `VITE_GOOGLE_ADS_CONVERSION_ID` = `AW-1234567890`
+   - `VITE_GOOGLE_ADS_PURCHASE_LABEL` = `tu_label_compras`
+   - `VITE_GOOGLE_ADS_CONTACT_LABEL` = `tu_label_contacto`
+
+3. **¿Cómo funciona?**
+   - `.github/workflows/deploy.yml` ya está actualizado
+   - En cada deploy, crea `.env` con estos secrets:
+     ```yaml
+     - name: Create .env file with secrets
+       run: |
+         echo "VITE_GOOGLE_ADS_PUBLISHER_ID=${{ secrets.VITE_GOOGLE_ADS_PUBLISHER_ID }}" >> .env
+         echo "VITE_GOOGLE_ADS_CONVERSION_ID=${{ secrets.VITE_GOOGLE_ADS_CONVERSION_ID }}" >> .env
+         # ... (todas las variables)
+     ```
+   - Vite las lee y las incrusta en el build
+   - **No requiere cambios en el código**
 
 **IMPORTANTE:**
 - ✅ `.env` ya está en `.gitignore` - está protegido
@@ -133,6 +179,9 @@ Documentación completa con:
 
 ```
 licoresbta24/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml                                  [MODIFICADO - inyecta secrets]
 ├── index.html                                          [MODIFICADO - script removido]
 ├── vite.config.js                                      [MODIFICADO - genera ads.txt]
 ├── src/

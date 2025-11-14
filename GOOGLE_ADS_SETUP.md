@@ -78,32 +78,107 @@ Antes de comenzar, necesitas:
    - ⚠️ NUNCA comitees el archivo `.env` al repositorio
    - ✅ Usa `.env.example` para documentar las variables necesarias
 
-### Paso 2: Configurar Variables en Producción
+### Paso 2: Configurar Variables en Producción (GitHub Actions)
 
-**El archivo `.env` solo funciona en desarrollo local.** Para producción, debes configurar las variables de entorno en tu plataforma de hosting.
+**El archivo `.env` solo funciona en desarrollo local.** Para producción, las variables ya están configuradas en tu GitHub Actions workflow.
 
-#### Si usas GitHub Actions + Servidor VPS (tu caso):
+#### Configuración de GitHub Secrets (REQUERIDO para producción):
 
-1. **Ve a tu repositorio en GitHub**
-2. **Settings → Secrets and variables → Actions**
-3. **Click en "New repository secret"**
-4. **Agrega cada variable:**
+1. **Ve a tu repositorio en GitHub:**
+   ```
+   https://github.com/TU_USUARIO/TU_REPO
+   ```
 
-   | Name | Value |
-   |------|-------|
-   | `VITE_GOOGLE_ADS_PUBLISHER_ID` | `ca-pub-1234567890123456` |
-   | `VITE_GOOGLE_ADS_CONVERSION_ID` | `AW-1234567890` |
-   | `VITE_GOOGLE_ADS_PURCHASE_LABEL` | `tu_label_de_compras` |
-   | `VITE_GOOGLE_ADS_CONTACT_LABEL` | `tu_label_de_contacto` |
+2. **Navega a Settings:**
+   - Click en "Settings" (arriba a la derecha)
+   - En el menú izquierdo: "Secrets and variables" → "Actions"
 
-5. **Las variables se inyectarán automáticamente durante el build en GitHub Actions**
+3. **Agrega cada secret (click en "New repository secret"):**
 
-#### Si usas Vercel, Netlify u otro hosting:
+   **Secret 1:**
+   - Name: `VITE_GOOGLE_ADS_PUBLISHER_ID`
+   - Value: `ca-pub-1234567890123456` (tu ID real)
+   - Click "Add secret"
+
+   **Secret 2:**
+   - Name: `VITE_GOOGLE_ADS_CONVERSION_ID`
+   - Value: `AW-1234567890` (tu ID real)
+   - Click "Add secret"
+
+   **Secret 3:**
+   - Name: `VITE_GOOGLE_ADS_PURCHASE_LABEL`
+   - Value: `tu_label_de_compras` (tu label real)
+   - Click "Add secret"
+
+   **Secret 4:**
+   - Name: `VITE_GOOGLE_ADS_CONTACT_LABEL`
+   - Value: `tu_label_de_contacto` (tu label real)
+   - Click "Add secret"
+
+4. **¿Cómo funciona?**
+   - Tu archivo `.github/workflows/deploy.yml` ya está configurado
+   - En cada deploy, crea un archivo `.env` con estos secrets
+   - Vite los lee durante el build
+   - Se incrustan en el código compilado
+   - **Ya está todo listo - solo agrega los secrets**
+
+5. **Verificar configuración:**
+   Después de agregar los secrets, deberías ver 4 secrets listados:
+   ```
+   VITE_GOOGLE_ADS_PUBLISHER_ID
+   VITE_GOOGLE_ADS_CONVERSION_ID
+   VITE_GOOGLE_ADS_PURCHASE_LABEL
+   VITE_GOOGLE_ADS_CONTACT_LABEL
+   ```
+
+#### ⚠️ IMPORTANTE sobre los Secrets:
+
+- ✅ Los secrets son privados - nadie puede verlos
+- ✅ Solo se usan durante el build
+- ✅ Se incrustan en el código compilado
+- ⚠️ Si cambias un secret, necesitas hacer un nuevo deploy (push a main)
+- ⚠️ Los secrets vacíos son válidos - el sitio funcionará sin errores
+
+#### Si usas otro hosting (Vercel, Netlify, etc.):
 
 1. **Ve al dashboard de tu proyecto**
 2. **Busca "Environment Variables" o "Settings"**
 3. **Agrega las mismas 4 variables**
 4. **Redeploy tu sitio**
+
+#### Nota sobre Hostinger (tu configuración actual):
+
+Como estás usando **Hostinger con GitHub Actions + FTP Deploy**, el flujo es:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ 1. Push a main                                                  │
+│    git push origin main                                         │
+└────────────────────┬────────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ 2. GitHub Actions se activa                                     │
+│    - Instala dependencias                                       │
+│    - Crea .env con secrets (VITE_GOOGLE_ADS_*)                 │
+│    - Ejecuta npm run build                                      │
+│    - Variables se incrustan en el código compilado              │
+└────────────────────┬────────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ 3. FTP Deploy                                                   │
+│    - Sube /dist/ a Hostinger vía FTP                           │
+│    - Código ya tiene Google Ads incrustado                      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Puntos clave:**
+- ✅ **NO necesitas configurar nada en Hostinger**
+- ✅ Las variables se manejan 100% en GitHub Secrets
+- ✅ El build se hace en GitHub Actions (con las variables)
+- ✅ Solo se sube el código compilado a Hostinger
+- ✅ Tu workflow `.github/workflows/deploy.yml` ya está configurado
 
 #### ¿Cómo funcionan las variables de entorno?
 

@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { visualizer } from 'rollup-plugin-visualizer'
 import viteCompression from 'vite-plugin-compression'
+import { copyFileSync } from 'fs'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -32,6 +33,19 @@ export default defineConfig({
       threshold: 1024,
       deleteOriginFile: false
     }),
+
+    // Plugin personalizado para copiar .htaccess
+    {
+      name: 'copy-htaccess',
+      closeBundle() {
+        try {
+          copyFileSync('public/.htaccess', 'dist/.htaccess')
+          console.log('✓ .htaccess copiado a dist/')
+        } catch (err) {
+          console.error('Error copiando .htaccess:', err)
+        }
+      }
+    },
   ],
 
   build: {

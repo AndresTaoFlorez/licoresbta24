@@ -1,5 +1,6 @@
 name: Deploy to Hostinger
 
+# Auto-deploy on push to main branch
 on:
   push:
     branches:

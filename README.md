@@ -1,50 +1,18 @@
 # Licores BTA24
 
-Sitio web comercial diseñado para promocionar y facilitar el acceso a productos de una tienda. La plataforma ofrece una experiencia de navegación optimizada para que los clientes puedan explorar el catálogo disponible y obtener información relevante sobre los servicios.
+Sitio web comercial para venta de licores a domicilio en Bogotá. Catálogo de productos con servicio 24 horas.
 
-## Características principales
+## Características
 
-- **Interfaz responsive**: Diseño adaptable para dispositivos móviles, tablets y desktop
-- **Catálogo de productos**: Presentación visual de los artículos disponibles
-- **Información de contacto**: Acceso directo a canales de comunicación
-- **Integración con WhatsApp**: Conexión rápida para consultas y pedidos
-- **Efectos visuales modernos**: Experiencia de usuario mejorada con animaciones y transiciones
+- Interfaz responsive
+- Catálogo de productos
+- Integración con Google Ads
 
-## Tecnologías utilizadas
+## Tecnologías
 
-- **React**: Biblioteca JavaScript para la construcción de interfaces de usuario
-- **Vite**: Herramienta de desarrollo rápida para aplicaciones web modernas
-- **SCSS**: Preprocesador CSS para estilos estructurados y mantenibles
-- **Swiper**: Componente para carruseles y sliders interactivos
-- **React Router**: Navegación entre páginas
-
-## Instalación
-
-```bash
-# Instalar dependencias
-npm install
-
-# Ejecutar en modo desarrollo
-npm run dev
-
-# Compilar para producción
-npm run build
-```
-
-## Estructura del proyecto
-
-```
-src/
-   presentation/
-      components/    # Componentes reutilizables
-      pages/         # Páginas principales
-      assets/        # Recursos estáticos
-   styles/            # Estilos globales
-```
-
-## Despliegue
-
-El proyecto está optimizado para despliegue en plataformas de hosting estático como Vercel, Netlify o GitHub Pages.
+- React + Vite
+- SCSS
+- React Router
 
 ## Licencia
 

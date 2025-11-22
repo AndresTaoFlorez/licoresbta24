@@ -13,6 +13,7 @@ import { useDeliveryLocation } from './presentation/components/features/location
 import { Header, Footer } from './presentation/components/layout';
 import { fetchProducts } from './infrastructure/state/slices/productsSlice.js';
 import { openLocationModal } from './infrastructure/state/slices/locationSlice.js';
+import GoogleAdsScript from './utils/GoogleAdsScript.jsx';
 
 function App() {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ function App() {
 
   return (
     <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'white' }}><div style={{ animation: 'spin 1s linear infinite', borderRadius: '9999px', height: '4rem', width: '4rem', borderBottom: '4px solid rgb(22, 163, 74)' }}></div></div>}>
+      <GoogleAdsScript />
       <SwipeToEnter loading={loading}>
         <div className="app-content">
           <Modal />

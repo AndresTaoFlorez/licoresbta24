@@ -18,6 +18,7 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link instagram"
+                aria-label="Síguenos en Instagram - @licoresbogota24_"
               >
                 <Instagram className="social-icon" />
               </a>
@@ -26,6 +27,7 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link tiktok"
+                aria-label="Síguenos en TikTok - @licoresbogota247"
               >
                 <TikTok className="social-icon" />
               </a>
@@ -42,13 +44,15 @@ function Footer() {
                 <div className="contact-numbers">
                   <button
                     onClick={() => handleContactClick("3133978710")}
+                    aria-label="Llamar o contactar por WhatsApp al +57 313 3978710"
                   >
-                    313 3978710
+                    +57 313 3978710
                   </button>
                   <button
                     onClick={() => handleContactClick("3114575986")}
+                    aria-label="Llamar o contactar por WhatsApp al +57 311 4575936"
                   >
-                    311 4575936
+                    +57 311 4575936
                   </button>
                 </div>
               </div>

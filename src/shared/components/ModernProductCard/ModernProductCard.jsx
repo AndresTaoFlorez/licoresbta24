@@ -9,6 +9,7 @@ import './ModernProductCard.scss';
  */
 function ModernProductCard({ product, badge = null, onToggleFavorite, isFavorite = false }) {
   const [localFavorite, setLocalFavorite] = useState(isFavorite);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
@@ -16,9 +17,14 @@ function ModernProductCard({ product, badge = null, onToggleFavorite, isFavorite
     onToggleFavorite?.(product);
   };
 
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
   const hasMeta = product.MARCA || product.MEDIDA;
   const badgeClass = badge ? `modern-product-card__badge--${badge.toLowerCase()}` : '';
   const favoriteClass = localFavorite ? 'modern-product-card__favorite--active' : '';
+  const imageClass = imageLoaded ? 'modern-product-card__image--loaded' : 'modern-product-card__image--loading';
 
   return (
     <article className="modern-product-card">
@@ -27,9 +33,10 @@ function ModernProductCard({ product, badge = null, onToggleFavorite, isFavorite
         <img
           src={product.FOTO}
           alt={product.PRODUCTO}
-          className="modern-product-card__image"
+          className={`modern-product-card__image ${imageClass}`}
           loading="lazy"
           decoding="async"
+          onLoad={handleImageLoad}
         />
 
         <div className="modern-product-card__overlay" />

@@ -14,6 +14,8 @@ import { Header, Footer } from './presentation/components/layout';
 import { fetchProducts } from './infrastructure/state/slices/productsSlice.js';
 import { openLocationModal } from './infrastructure/state/slices/locationSlice.js';
 import GoogleAdsScript from './utils/GoogleAdsScript.jsx';
+import StructuredData from './shared/components/StructuredData/StructuredData.jsx';
+import { trackPageView } from './utils/googleAds.js';
 
 function App() {
   const dispatch = useDispatch();
@@ -48,9 +50,15 @@ function App() {
     }
   }, []);
 
+  // Track initial page load
+  useEffect(() => {
+    trackPageView('Home - Licores Bogotá 24', '/home');
+  }, []);
+
   return (
     <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'white' }}><div style={{ animation: 'spin 1s linear infinite', borderRadius: '9999px', height: '4rem', width: '4rem', borderBottom: '4px solid rgb(22, 163, 74)' }}></div></div>}>
       <GoogleAdsScript />
+      <StructuredData />
       <SwipeToEnter loading={loading}>
         <div className="app-content">
           <Modal />

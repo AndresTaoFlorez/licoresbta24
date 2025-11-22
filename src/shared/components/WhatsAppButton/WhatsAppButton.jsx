@@ -9,6 +9,7 @@ const WhatsAppButton = () => {
     <button
       onClick={() => handleContactClick('3133978710', true)}
       className={`whatsapp-button ${isModalOpen ? 'whatsapp-button--hidden' : ''}`}
+      aria-label="Contactar por WhatsApp - Pedir licores a domicilio"
     >
       <svg
         width="25"

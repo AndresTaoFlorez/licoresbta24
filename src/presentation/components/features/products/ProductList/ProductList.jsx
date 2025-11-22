@@ -1,7 +1,19 @@
+import { useEffect } from 'react';
 import { ModernProductCard } from "../../../../../shared/components";
+import { trackProductListView, trackProductClick, trackAddToCart } from "../../../../../utils/googleAds.js";
 
 const ProductList = ({ items }) => {
+  // Track when product list is viewed
+  useEffect(() => {
+    if (items && Object.keys(items).length > 0) {
+      const productsArray = Object.values(items);
+      trackProductListView(productsArray, 'Home Product List');
+    }
+  }, [items]);
+
   const handleAddToCart = (product) => {
+    // Track add to cart event
+    trackAddToCart(product.PRODUCTO, product.PRECIO);
     // TODO: Implement cart functionality
     console.log('Add to cart:', product);
   };
@@ -9,6 +21,11 @@ const ProductList = ({ items }) => {
   const handleToggleFavorite = (product) => {
     // TODO: Implement favorites functionality
     console.log('Toggle favorite:', product);
+  };
+
+  const handleProductClick = (product, index) => {
+    // Track product click
+    trackProductClick(product, index);
   };
 
   return (
@@ -21,13 +38,14 @@ const ProductList = ({ items }) => {
           if (index % 12 === 0) badge = 'SALE';
 
           return (
-            <ModernProductCard
-              key={product.PRODUCTO}
-              product={product}
-              badge={badge}
-              onAddToCart={handleAddToCart}
-              onToggleFavorite={handleToggleFavorite}
-            />
+            <div key={product.PRODUCTO} onClick={() => handleProductClick(product, index)}>
+              <ModernProductCard
+                product={product}
+                badge={badge}
+                onAddToCart={handleAddToCart}
+                onToggleFavorite={handleToggleFavorite}
+              />
+            </div>
           );
         })}
       </div>

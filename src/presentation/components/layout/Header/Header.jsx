@@ -26,7 +26,7 @@ function Header() {
               <img
                 className="header__logo-image"
                 src="/licoresbta_logo.svg"
-                alt="licoresbta_logo"
+                alt="Licores Bogotá 24 - Licores a domicilio en Bogotá"
               />
 
               <div className="header__tagline">

@@ -54,7 +54,18 @@
     height: 100%;
     object-fit: contain;
     padding: $space-3;
-    transition: transform $duration-slow $easing-out;
+    transition: transform $duration-slow $easing-out, opacity 0.3s ease-in-out;
+
+    // Loading state - hidden with white background
+    &--loading {
+      opacity: 0;
+      background: $white;
+    }
+
+    // Loaded state - fade in
+    &--loaded {
+      opacity: 1;
+    }
   }
 
   // Gradient overlay on hover

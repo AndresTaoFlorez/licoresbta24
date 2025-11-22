@@ -56,6 +56,41 @@ export const trackContactView = () => {
 };
 
 /**
+ * Track phone call clicks
+ * @param {string} phoneNumber - The phone number being called
+ */
+export const trackPhoneCall = (phoneNumber) => {
+  // Track as a general event
+  if (window.gtag) {
+    window.gtag('event', 'phone_call_click', {
+      'event_category': 'engagement',
+      'event_label': phoneNumber,
+      'phone_number': phoneNumber
+    });
+  }
+
+  // Also track contact view if label is configured
+  trackContactView();
+};
+
+/**
+ * Track WhatsApp click
+ * @param {string} phoneNumber - The phone number for WhatsApp
+ */
+export const trackWhatsAppClick = (phoneNumber) => {
+  if (window.gtag) {
+    window.gtag('event', 'whatsapp_click', {
+      'event_category': 'engagement',
+      'event_label': phoneNumber,
+      'phone_number': phoneNumber
+    });
+  }
+
+  // Also track contact view if label is configured
+  trackContactView();
+};
+
+/**
  * Track when user adds item to cart
  * @param {string} productName - Name of the product
  * @param {number} productValue - Value of the product
@@ -83,6 +118,72 @@ export const trackPageView = (pageTitle, pagePath) => {
     window.gtag('event', 'page_view', {
       'page_title': pageTitle,
       'page_path': pagePath
+    });
+  }
+};
+
+/**
+ * Track product view (when user sees a product)
+ * @param {object} product - The product object
+ */
+export const trackProductView = (product) => {
+  if (window.gtag) {
+    window.gtag('event', 'view_item', {
+      'event_category': 'engagement',
+      'currency': 'COP',
+      'value': product.PRECIO || 0,
+      'items': [{
+        'item_id': product.PRODUCTO || 'unknown',
+        'item_name': product.PRODUCTO || 'unknown',
+        'item_category': product.CATEGORIA || 'unknown',
+        'item_brand': product.MARCA || 'unknown',
+        'price': product.PRECIO || 0
+      }]
+    });
+  }
+};
+
+/**
+ * Track product click (when user clicks on a product)
+ * @param {object} product - The product object
+ * @param {number} position - Position in the list (optional)
+ */
+export const trackProductClick = (product, position = 0) => {
+  if (window.gtag) {
+    window.gtag('event', 'select_item', {
+      'event_category': 'engagement',
+      'items': [{
+        'item_id': product.PRODUCTO || 'unknown',
+        'item_name': product.PRODUCTO || 'unknown',
+        'item_category': product.CATEGORIA || 'unknown',
+        'item_brand': product.MARCA || 'unknown',
+        'price': product.PRECIO || 0,
+        'index': position
+      }]
+    });
+  }
+};
+
+/**
+ * Track when user views a list of products
+ * @param {array} products - Array of product objects
+ * @param {string} listName - Name of the list (e.g., "Search Results", "Category: Whisky")
+ */
+export const trackProductListView = (products, listName = 'Product List') => {
+  if (window.gtag && products && products.length > 0) {
+    const items = products.slice(0, 10).map((product, index) => ({
+      'item_id': product.PRODUCTO || 'unknown',
+      'item_name': product.PRODUCTO || 'unknown',
+      'item_category': product.CATEGORIA || 'unknown',
+      'item_brand': product.MARCA || 'unknown',
+      'price': product.PRECIO || 0,
+      'index': index
+    }));
+
+    window.gtag('event', 'view_item_list', {
+      'event_category': 'engagement',
+      'item_list_name': listName,
+      'items': items
     });
   }
 };

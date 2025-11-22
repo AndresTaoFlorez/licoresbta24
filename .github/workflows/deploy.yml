@@ -25,8 +25,8 @@ jobs:
 
       - name: Create .env file with secrets
         run: |
-          echo "VITE_GOOGLE_ADS_PUBLISHER_ID=${{ secrets.VITE_GOOGLE_ADS_PUBLISHER_ID }}" >> .env
           echo "VITE_GOOGLE_ADS_CONVERSION_ID=${{ secrets.VITE_GOOGLE_ADS_CONVERSION_ID }}" >> .env
+          echo "VITE_GOOGLE_ADS_PUBLISHER_ID=${{ secrets.VITE_GOOGLE_ADS_PUBLISHER_ID }}" >> .env
           echo "VITE_GOOGLE_ADS_PURCHASE_LABEL=${{ secrets.VITE_GOOGLE_ADS_PURCHASE_LABEL }}" >> .env
           echo "VITE_GOOGLE_ADS_CONTACT_LABEL=${{ secrets.VITE_GOOGLE_ADS_CONTACT_LABEL }}" >> .env
 

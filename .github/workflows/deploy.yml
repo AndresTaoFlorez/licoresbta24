@@ -39,11 +39,12 @@ jobs:
           server: 5.183.10.23
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
+          protocol: ftps
           port: 21
           local-dir: ./dist/
           server-dir: /
           dangerous-clean-slate: true
+          timeout: 600000
           exclude: |
             **/.git*
             **/.git*/**
